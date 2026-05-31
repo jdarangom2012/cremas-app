@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cremas & Sabores</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f3f5;font-size:15px}
+.app-shell{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:64px;background:#fff;border-right:1px solid #e8e0e4;display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;flex-shrink:0;position:sticky;top:0;height:100vh}
+.nav-logo{width:40px;height:40px;border-radius:50%;background:#fce8f0;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:8px}
+.nav-sep{width:32px;height:1px;background:#e8e0e4;margin:4px 0}
+.nav-item{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;position:relative;color:#aaa}
+.nav-item:hover{background:#fce8f0;color:#D4537E}
+.nav-item.active{background:#fce8f0;color:#D4537E}
+.nav-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-badge{position:absolute;top:5px;right:5px;background:#D4537E;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{background:#fff;border-bottom:1px solid #e8e0e4;padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;position:sticky;top:0;z-index:10}
+.topbar-title{font-size:15px;font-weight:600;color:#1a1a1a}
+.topbar-sub{font-size:12px;color:#888}
+.topbar-right{display:flex;align-items:center;gap:8px}
+
+/* BOTÓN ADMIN DISCRETO (solo ícono de candado, sin texto) */
+.admin-lock-btn{width:36px;height:36px;border-radius:50%;border:1px solid #e8e0e4;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#ccc;transition:all .15s}
+.admin-lock-btn:hover{border-color:#D4537E;color:#D4537E;background:#fce8f0}
+.admin-lock-btn.unlocked{color:#D4537E;border-color:#D4537E;background:#fce8f0}
+.admin-lock-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.page{display:none;padding:16px;max-width:1200px}
+.page.active{display:block}
+
+/* LOGIN MODAL (in-flow) */
+.login-overlay{display:none;background:rgba(30,10,20,.55);padding:2rem 1rem;align-items:center;justify-content:center;min-height:300px}
+.login-overlay.show{display:flex}
+.login-sheet{background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:300px;text-align:center}
+.login-logo{font-size:36px;margin-bottom:12px}
+.login-title{font-size:17px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.login-sub{font-size:13px;color:#888;margin-bottom:20px}
+.login-input{width:100%;padding:11px 14px;border:1.5px solid #e8e0e4;border-radius:10px;font-size:14px;outline:none;text-align:center;letter-spacing:4px;margin-bottom:12px;color:#1a1a1a;background:#fff}
+.login-input:focus{border-color:#D4537E}
+.login-input.error{border-color:#c0392b;animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.btn-login{width:100%;padding:12px;background:#D4537E;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px}
+.btn-login:hover{background:#b8405e}
+.btn-cancel-login{width:100%;padding:10px;background:#f5f0f2;color:#666;border:1px solid #e0d8dc;border-radius:10px;font-size:13px;cursor:pointer}
+.login-error{font-size:12px;color:#c0392b;margin-bottom:10px;display:none}
+
+/* Logout pill (solo visible en modo admin) */
+.logout-btn{padding:5px 12px;border-radius:50px;border:1px solid #e0d8dc;font-size:12px;cursor:pointer;color:#888;background:#fff;display:none;align-items:center;gap:5px}
+.logout-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.logout-btn:hover{background:#fce8f0;color:#D4537E;border-color:#e8afc4}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:#888;gap:10px;font-size:14px}
+.spinner{width:20px;height:20px;border:2px solid #e8e0e4;border-top-color:#D4537E;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MÉTRICAS */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.metric{background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #e8e0e4}
+.metric-label{font-size:12px;color:#888;margin-bottom:4px}
+.metric-val{font-size:22px;font-weight:600;color:#1a1a1a}
+.metric-delta{font-size:11px;margin-top:2px;color:#3B6D11}
+
+.sh{font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;margin-top:16px}
+.sh:first-child{margin-top:0}
+
+/* BÚSQUEDA */
+.search-row{display:flex;gap:8px;margin-bottom:12px}
+.search-row input{flex:1;padding:9px 14px;border:1.5px solid #e8e0e4;border-radius:10px;background:#fff;color:#1a1a1a;font-size:13px;outline:none}
+.search-row input:focus{border-color:#D4537E}
+.cat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.cat-pill{padding:5px 13px;border-radius:50px;border:1.5px solid #e8e0e4;font-size:12px;cursor:pointer;color:#666;background:#fff;white-space:nowrap;transition:all .15s}
+.cat-pill.active{background:#D4537E;color:#fff;border-color:#D4537E}
+.cat-pill:hover:not(.active){border-color:#D4537E;color:#D4537E}
+
+/* GRILLA SABORES */
+.flavor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;margin-bottom:16px}
+.fcard{background:#fff;border:1.5px solid #e8e0e4;border-radius:12px;padding:12px;cursor:pointer;transition:all .15s;position:relative;display:flex;flex-direction:column}
+.fcard:hover:not(.out){border-color:#D4537E;box-shadow:0 0 0 3px #fce8f0}
+.fcard.in-cart{border-color:#D4537E;background:#fff5f8}
+.fcard.out{opacity:.5;cursor:not-allowed}
+.fcard-emoji{font-size:28px;margin-bottom:6px}
+.fcard-name{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.fcard-price{font-size:14px;font-weight:600;color:#D4537E;margin-top:auto}
+.fcard-add{margin-top:8px;padding:7px 0;width:100%;background:#D4537E;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;transition:background .15s;font-weight:500}
+.fcard-add:hover{background:#b8405e}
+.fcard-add.added{background:#639922}
+.fcard-add:disabled{background:#eee;color:#aaa;cursor:not-allowed}
+.sbadge{position:absolute;top:8px;right:8px;font-size:10px;padding:2px 7px;border-radius:50px;font-weight:600}
+.s-ok{background:#e6f4d7;color:#3B6D11}
+.s-low{background:#fff0d6;color:#854F0B}
+.s-out{background:#fde8e8;color:#c0392b}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:50px;font-weight:500;margin-bottom:4px}
+.tag-frutas{background:#e6f4d7;color:#3B6D11}
+.tag-clasicos{background:#fce8f0;color:#993556}
+.tag-especiales{background:#e0ecfa;color:#185FA5}
+.tag-tropicales{background:#fff0d6;color:#854F0B}
+
+/* CARRITO */
+.cart-list{margin-bottom:14px}
+.citem{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0e8ec}
+.citem-emoji{font-size:22px;width:32px;text-align:center}
+.citem-info{flex:1;min-width:0}
+.citem-name{font-size:13px;font-weight:600;color:#1a1a1a}
+.citem-price{font-size:12px;color:#888}
+.qty-ctrl{display:flex;align-items:center;gap:6px}
+.qbtn{width:28px;height:28px;border-radius:50%;border:1.5px solid #e8e0e4;background:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#1a1a1a;transition:all .15s}
+.qbtn:hover{border-color:#D4537E;color:#D4537E}
+.qnum{font-size:13px;font-weight:600;min-width:18px;text-align:center;color:#1a1a1a}
+.total-box{background:#fff;border:1.5px solid #e8e0e4;border-radius:12px;padding:14px;margin-bottom:14px}
+.trow{display:flex;justify-content:space-between;font-size:13px;color:#888;padding:3px 0}
+.trow.big{font-size:16px;font-weight:600;color:#1a1a1a;border-top:1px solid #f0e8ec;padding-top:10px;margin-top:6px}
+.pay-section{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.pay-method{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #e8e0e4;border-radius:12px;cursor:pointer;background:#fff;transition:all .15s}
+.pay-method:hover,.pay-method.sel{border-color:#D4537E;background:#fff5f8}
+.pay-method input{accent-color:#D4537E}
+.pay-method-label{font-size:13px;font-weight:600;color:#1a1a1a}
+.pay-method-sub{font-size:11px;color:#888}
+.pay-icon{font-size:22px;width:32px;text-align:center}
+.btn-pay{width:100%;padding:14px;background:#D4537E;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
+.btn-pay:hover{background:#b8405e}
+.btn-pay svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.empty-state{text-align:center;padding:3rem 1rem;color:#888}
+.empty-icon{font-size:42px;margin-bottom:12px}
+
+/* QR */
+.qr-overlay{display:none;background:rgba(30,10,20,.55);padding:2rem 1rem;align-items:center;justify-content:center;border-radius:12px;margin-top:12px}
+.qr-overlay.show{display:flex}
+.qr-sheet{background:#fff;border-radius:16px;padding:1.5rem;width:100%;max-width:320px;text-align:center}
+.qr-title{font-size:17px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.qr-sub{font-size:13px;color:#888;margin-bottom:16px}
+.qr-box{width:156px;height:156px;margin:0 auto 16px;border:2px solid #D4537E;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#fff8fa}
+.qr-amount-box{background:#fff0f5;border-radius:10px;padding:10px 14px;margin-bottom:14px;border:1px solid #f4c0d1}
+.qr-amount-label{font-size:12px;color:#993556}
+.qr-amount-val{font-size:22px;font-weight:600;color:#D4537E;display:block;margin-top:2px}
+.btn-confirm{width:100%;padding:12px;background:#639922;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-confirm:disabled{background:#aaa;cursor:not-allowed}
+.btn-cancel{width:100%;padding:10px;background:#f5f0f2;color:#666;border:1px solid #e0d8dc;border-radius:10px;font-size:13px;cursor:pointer}
+.order-pill{display:inline-block;background:#e6f4d7;color:#3B6D11;border-radius:50px;padding:5px 16px;font-size:13px;font-weight:600;margin-top:10px}
+
+/* TABLAS ADMIN */
+.inv-table-wrap,.orders-table-wrap{overflow-x:auto;margin-bottom:16px;background:#fff;border:1px solid #e8e0e4;border-radius:12px}
+.inv-table,.orders-table{width:100%;border-collapse:collapse;font-size:13px}
+.inv-table th,.orders-table th{text-align:left;padding:10px 12px;border-bottom:1px solid #e8e0e4;color:#888;font-weight:600;font-size:12px;background:#fafafa}
+.inv-table td,.orders-table td{padding:10px 12px;border-bottom:1px solid #f5f0f2;color:#1a1a1a;vertical-align:middle}
+.inv-table tr:last-child td,.orders-table tr:last-child td{border-bottom:none}
+.inv-table tr:hover td,.orders-table tr:hover td{background:#fff8fa}
+.inv-table{table-layout:fixed}
+.stock-input{width:65px;padding:5px 8px;border:1px solid #e0d8dc;border-radius:6px;background:#fff;color:#1a1a1a;font-size:13px;text-align:center}
+.save-btn{padding:5px 12px;background:#639922;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500}
+.save-btn:hover{background:#3B6D11}
+.estado-pill{display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600}
+.est-confirmado{background:#e6f4d7;color:#3B6D11}
+.est-pendiente{background:#fff0d6;color:#854F0B}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="nav-logo">🍦</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item active" id="nav-tienda" onclick="setPage('tienda')" title="Tienda">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <div class="nav-item" id="nav-carrito" onclick="setPage('carrito')" title="Mi pedido">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.55l1.65-8.44H6"/></svg>
+      <div class="nav-badge" id="cart-badge" style="display:none">0</div>
+    </div>
+    <div class="nav-sep" id="admin-sep" style="display:none"></div>
+    <div class="nav-item" id="nav-admin" onclick="setPage('admin')" title="Dashboard" style="display:none">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    </div>
+    <div class="nav-item" id="nav-inv" onclick="setPage('inv')" title="Inventario" style="display:none">
+      <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    </div>
+    <div class="nav-item" id="nav-pedidos" onclick="setPage('pedidos')" title="Pedidos" style="display:none">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbar-title">Nuestros sabores</div>
+        <div class="topbar-sub" id="topbar-sub">Elige y paga fácil</div>
+      </div>
+      <div class="topbar-right">
+        <!-- Botón cerrar sesión admin (solo visible cuando está logueado) -->
+        <div class="logout-btn" id="logout-btn" onclick="logoutAdmin()">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Salir
+        </div>
+        <!-- Candado discreto: el cliente ni lo nota, el dueño sabe que existe -->
+        <div class="admin-lock-btn" id="lock-btn" onclick="showLogin()" title="Acceso administrador">
+          <svg id="lock-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIENDA -->
+    <div class="page active" id="page-tienda">
+      <div class="search-row"><input type="text" id="search-input" placeholder="Buscar sabor..." oninput="renderTienda()"></div>
+      <div class="cat-pills" id="cat-pills"></div>
+      <div id="flavor-grid-wrap">
+        <div class="loading"><div class="spinner"></div> Cargando sabores...</div>
+      </div>
+    </div>
+
+    <!-- CARRITO -->
+    <div class="page" id="page-carrito">
+      <div id="cart-content"></div>
+      <div class="qr-overlay" id="qr-overlay">
+        <div class="qr-sheet">
+          <div id="qr-pay-view">
+            <div class="qr-title" id="qr-method-title">Pago con Nequi</div>
+            <div class="qr-sub">Escanea el código con tu celular</div>
+            <div class="qr-box">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="6" width="42" height="42" rx="4" fill="none" stroke="#D4537E" stroke-width="2.5"/>
+                <rect x="14" y="14" width="26" height="26" rx="2" fill="#D4537E"/>
+                <rect x="72" y="6" width="42" height="42" rx="4" fill="none" stroke="#D4537E" stroke-width="2.5"/>
+                <rect x="80" y="14" width="26" height="26" rx="2" fill="#D4537E"/>
+                <rect x="6" y="72" width="42" height="42" rx="4" fill="none" stroke="#D4537E" stroke-width="2.5"/>
+                <rect x="14" y="80" width="26" height="26" rx="2" fill="#D4537E"/>
+                <rect x="72" y="72" width="11" height="11" rx="2" fill="#D4537E"/>
+                <rect x="87" y="72" width="11" height="11" rx="2" fill="#D4537E"/>
+                <rect x="102" y="72" width="11" height="11" rx="2" fill="#D4537E"/>
+                <rect x="72" y="87" width="11" height="11" rx="2" fill="#D4537E"/>
+                <rect x="102" y="87" width="11" height="11" rx="2" fill="#D4537E"/>
+                <rect x="72" y="102" width="11" height="11" rx="2" fill="#D4537E"/>
+                <rect x="87" y="102" width="26" height="11" rx="2" fill="#D4537E"/>
+                <rect x="56" y="56" width="8" height="8" rx="2" fill="#D4537E"/>
+              </svg>
+            </div>
+            <div class="qr-amount-box">
+              <div class="qr-amount-label">Total a pagar</div>
+              <strong class="qr-amount-val" id="qr-amount">$0</strong>
+            </div>
+            <button class="btn-confirm" id="btn-confirm-pago" onclick="confirmPago()">✓ Confirmar pago</button>
+            <button class="btn-cancel" onclick="closeQR()">Cancelar</button>
+          </div>
+          <div id="qr-success-view" style="display:none">
+            <div style="text-align:center;padding:.5rem 0">
+              <div style="font-size:44px;margin-bottom:8px">✅</div>
+              <div style="font-size:16px;font-weight:600;color:#3B6D11;margin-bottom:4px">¡Pedido confirmado!</div>
+              <div style="font-size:13px;color:#888">Tu crema está siendo preparada</div>
+              <div class="order-pill" id="order-pill">Orden #...</div>
+              <br><br>
+              <button class="btn-confirm" onclick="finalizarPedido()">Nuevo pedido</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN ADMIN (in-flow) -->
+    <div class="page" id="page-login">
+      <div class="login-overlay show">
+        <div class="login-sheet">
+          <div class="login-logo">🔐</div>
+          <div class="login-title">Acceso administrador</div>
+          <div class="login-sub">Ingresa la contraseña para continuar</div>
+          <div class="login-error" id="login-error">Contraseña incorrecta</div>
+          <input class="login-input" type="password" id="login-pass" placeholder="••••••••"
+            onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="btn-login" onclick="doLogin()">Entrar</button>
+          <button class="btn-cancel-login" onclick="cancelLogin()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div class="page" id="page-admin">
+      <div class="metrics" id="admin-metrics">
+        <div class="loading"><div class="spinner"></div> Cargando datos...</div>
+      </div>
+      <div class="sh">Últimos pedidos</div>
+      <div class="orders-table-wrap">
+        <table class="orders-table">
+          <thead><tr><th>Orden</th><th>Fecha</th><th>Total</th><th>Pago</th><th>Estado</th></tr></thead>
+          <tbody id="orders-tbody"><tr><td colspan="5" style="text-align:center;padding:20px;color:#888">Cargando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- INVENTARIO -->
+    <div class="page" id="page-inv">
+      <div class="metrics" id="inv-metrics"></div>
+      <div class="sh">Gestión de stock</div>
+      <div class="inv-table-wrap">
+        <table class="inv-table">
+          <thead><tr><th style="width:36px"></th><th>Sabor</th><th style="width:85px">Categ.</th><th style="width:100px">Stock</th><th style="width:90px">Precio</th><th style="width:70px">Guardar</th></tr></thead>
+          <tbody id="inv-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HISTORIAL PEDIDOS -->
+    <div class="page" id="page-pedidos">
+      <div class="sh">Historial completo de pedidos</div>
+      <div class="orders-table-wrap">
+        <table class="orders-table">
+          <thead><tr><th>Orden</th><th>Fecha y hora</th><th>Total</th><th>Pago</th><th>Estado</th></tr></thead>
+          <tbody id="pedidos-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPA_URL = 'https://rvvfdwbkheyknspdbuay.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dmZkd2JraGV5a25zcGRidWF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyNTI2NjcsImV4cCI6MjA5NTgyODY2N30.9qOXuu95fcTb3BltP2NpAViOQ84k3Ai8Oiq4EqI7RSw';
+const ADMIN_PASS = 'cremas2025'; // ← Cambia esta contraseña
+const H = {'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
+
+async function sbGet(path){const r=await fetch(SUPA_URL+'/rest/v1/'+path,{headers:{...H,'Prefer':'return=representation'}});return r.json()}
+async function sbPost(path,body){const r=await fetch(SUPA_URL+'/rest/v1/'+path,{method:'POST',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});return r.json()}
+async function sbPatch(path,body){const r=await fetch(SUPA_URL+'/rest/v1/'+path,{method:'PATCH',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});return r.json()}
+
+const COP=v=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',minimumFractionDigits:0}).format(v);
+const CATS=['todos','frutas','clasicos','tropicales','especiales'];
+let FLAVORS=[],cart={},selectedCat='todos',selectedPay='nequi';
+let isAdmin=false,prevPage='tienda';
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+function stockInfo(s){if(s===0)return{txt:'Agotado',cls:'s-out'};if(s<=3)return{txt:'Solo '+s,cls:'s-low'};return{txt:'Disponible',cls:'s-ok'}}
+
+// ── LOGIN ADMIN ──
+function showLogin(){
+  prevPage=document.querySelector('.page.active')?.id.replace('page-','')||'tienda';
+  document.getElementById('login-pass').value='';
+  document.getElementById('login-error').style.display='none';
+  document.getElementById('login-pass').classList.remove('error');
+  setPage('login');
+}
+
+function doLogin(){
+  const pass=document.getElementById('login-pass').value;
+  if(pass===ADMIN_PASS){
+    isAdmin=true;
+    // Mostrar opciones admin
+    ['admin','inv','pedidos'].forEach(x=>{document.getElementById('nav-'+x).style.display='flex'});
+    document.getElementById('admin-sep').style.display='block';
+    document.getElementById('lock-btn').classList.add('unlocked');
+    document.getElementById('logout-btn').style.display='flex';
+    // Cambiar ícono candado a abierto
+    document.getElementById('lock-icon').innerHTML='<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 019.9-1"/>';
+    setPage('admin');
+    toast('✅ Bienvenido, administrador');
+  } else {
+    const inp=document.getElementById('login-pass');
+    const err=document.getElementById('login-error');
+    inp.classList.add('error');
+    err.style.display='block';
+    setTimeout(()=>inp.classList.remove('error'),400);
+    inp.value='';
+  }
+}
+
+function cancelLogin(){
+  setPage(prevPage||'tienda');
+}
+
+function logoutAdmin(){
+  isAdmin=false;
+  ['admin','inv','pedidos'].forEach(x=>{document.getElementById('nav-'+x).style.display='none'});
+  document.getElementById('admin-sep').style.display='none';
+  document.getElementById('lock-btn').classList.remove('unlocked');
+  document.getElementById('logout-btn').style.display='none';
+  document.getElementById('lock-icon').innerHTML='<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>';
+  setPage('tienda');
+  toast('Sesión cerrada');
+}
+
+// ── CARGAR SABORES ──
+async function loadFlavors(){
+  try{
+    FLAVORS=await sbGet('sabores?activo=eq.true&order=nombre.asc');
+    renderTienda();
+  }catch(e){
+    document.getElementById('flavor-grid-wrap').innerHTML='<div class="loading" style="color:#c0392b">Error cargando sabores.</div>';
+  }
+}
+
+// ── TIENDA ──
+function renderTienda(){
+  const q=(document.getElementById('search-input').value||'').toLowerCase();
+  document.getElementById('cat-pills').innerHTML=CATS.map(c=>
+    `<div class="cat-pill${selectedCat===c?' active':''}" onclick="setCat('${c}')">${c.charAt(0).toUpperCase()+c.slice(1)}</div>`
+  ).join('');
+  const list=FLAVORS.filter(f=>(selectedCat==='todos'||f.categoria===selectedCat)&&(!q||f.nombre.toLowerCase().includes(q)));
+  const grid=document.getElementById('flavor-grid-wrap');
+  if(!list.length){grid.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>No se encontraron sabores</p></div>';return}
+  grid.innerHTML=`<div class="flavor-grid">${list.map(f=>{
+    const si=stockInfo(f.stock),inC=cart[f.id]>0,out=f.stock===0;
+    return`<div class="fcard${inC?' in-cart':''}${out?' out':''}">
+      <span class="sbadge ${si.cls}">${si.txt}</span>
+      <div class="fcard-emoji">${f.emoji}</div>
+      <div class="fcard-name">${f.nombre}</div>
+      <div><span class="tag tag-${f.categoria}">${f.categoria}</span></div>
+      <div class="fcard-price">${COP(f.precio)}</div>
+      <button class="fcard-add${inC?' added':''}" onclick="addCart(${f.id})" ${out?'disabled':''}>
+        ${out?'No disponible':inC?'✓ En pedido ('+cart[f.id]+')':'Agregar'}
+      </button>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function setCat(c){selectedCat=c;renderTienda()}
+function addCart(id){const f=FLAVORS.find(x=>x.id===id);if(!f||f.stock===0)return;cart[id]=(cart[id]||0)+1;updateBadge();renderTienda()}
+function removeCart(id){if(!cart[id])return;cart[id]--;if(cart[id]<=0)delete cart[id];updateBadge();renderTienda();renderCarrito()}
+function updateBadge(){const t=Object.values(cart).reduce((a,b)=>a+b,0);const b=document.getElementById('cart-badge');b.textContent=t;b.style.display=t>0?'flex':'none'}
+function cartTotal(){return Object.entries(cart).reduce((s,[id,q])=>{const f=FLAVORS.find(x=>x.id==id);return s+(f?f.precio*q:0)},0)}
+
+// ── CARRITO ──
+function renderCarrito(){
+  const items=Object.entries(cart).filter(([,q])=>q>0);
+  const el=document.getElementById('cart-content');
+  if(!items.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-icon">🛒</div><p style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:6px">Tu pedido está vacío</p><p style="font-size:13px">Ve al menú y elige tus sabores</p><br><button onclick="setPage('tienda')" style="margin-top:8px;padding:10px 20px;background:#D4537E;color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer;font-weight:500">Ver menú</button></div>`;
+    document.getElementById('qr-overlay').classList.remove('show');return;
+  }
+  const total=cartTotal();
+  el.innerHTML=`
+    <div class="sh">Sabores seleccionados</div>
+    <div class="cart-list">${items.map(([id,qty])=>{const f=FLAVORS.find(x=>x.id==id);return`<div class="citem"><div class="citem-emoji">${f.emoji}</div><div class="citem-info"><div class="citem-name">${f.nombre}</div><div class="citem-price">${COP(f.precio)} c/u</div></div><div class="qty-ctrl"><button class="qbtn" onclick="removeCart(${id})">−</button><span class="qnum">${qty}</span><button class="qbtn" onclick="addCart(${id})">+</button></div></div>`;}).join('')}</div>
+    <div class="total-box"><div class="trow"><span>Subtotal (${Object.values(cart).reduce((a,b)=>a+b,0)} und.)</span><span>${COP(total)}</span></div><div class="trow big"><span>Total</span><span>${COP(total)}</span></div></div>
+    <div class="sh">Método de pago</div>
+    <div class="pay-section">
+      <label class="pay-method${selectedPay==='nequi'?' sel':''}"><input type="radio" name="pay" value="nequi" ${selectedPay==='nequi'?'checked':''} onchange="selectedPay='nequi';renderCarrito()"><div class="pay-icon">💜</div><div><div class="pay-method-label">Nequi</div><div class="pay-method-sub">Paga con QR desde tu app</div></div></label>
+      <label class="pay-method${selectedPay==='pse'?' sel':''}"><input type="radio" name="pay" value="pse" ${selectedPay==='pse'?'checked':''} onchange="selectedPay='pse';renderCarrito()"><div class="pay-icon">🏦</div><div><div class="pay-method-label">PSE / Banco</div><div class="pay-method-sub">Débito bancario en línea</div></div></label>
+    </div>
+    <button class="btn-pay" onclick="openQR()">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Generar QR y pagar
+    </button>`;
+}
+
+function openQR(){
+  document.getElementById('qr-amount').textContent=COP(cartTotal());
+  document.getElementById('qr-method-title').textContent=selectedPay==='nequi'?'Pago con Nequi':'Pago PSE / Banco';
+  document.getElementById('qr-pay-view').style.display='block';
+  document.getElementById('qr-success-view').style.display='none';
+  const btn=document.getElementById('btn-confirm-pago');btn.disabled=false;btn.textContent='✓ Confirmar pago';
+  document.getElementById('qr-overlay').classList.add('show');
+}
+function closeQR(){document.getElementById('qr-overlay').classList.remove('show')}
+
+async function confirmPago(){
+  const btn=document.getElementById('btn-confirm-pago');
+  btn.disabled=true;btn.textContent='Guardando...';
+  try{
+    const total=cartTotal();
+    const numOrden='ORD-'+Date.now();
+    const [pedido]=await sbPost('pedidos',{numero_orden:numOrden,total,metodo_pago:selectedPay,estado:'confirmado'});
+    const items=Object.entries(cart).filter(([,q])=>q>0).map(([id,qty])=>{const f=FLAVORS.find(x=>x.id==id);return{pedido_id:pedido.id,sabor_id:parseInt(id),cantidad:qty,precio_unit:f.precio}});
+    await sbPost('pedido_items',items);
+    await sbPost('pagos',{pedido_id:pedido.id,metodo:selectedPay,monto:total,estado:'confirmado'});
+    for(const [id,qty] of Object.entries(cart)){
+      if(qty<=0)continue;
+      const f=FLAVORS.find(x=>x.id==id);if(!f)continue;
+      const nuevoStock=Math.max(0,f.stock-qty);
+      await sbPatch('sabores?id=eq.'+id,{stock:nuevoStock});
+      f.stock=nuevoStock;
+    }
+    document.getElementById('qr-pay-view').style.display='none';
+    document.getElementById('qr-success-view').style.display='block';
+    document.getElementById('order-pill').textContent='Orden '+numOrden;
+    toast('✅ Pedido guardado correctamente');
+  }catch(e){btn.disabled=false;btn.textContent='✓ Confirmar pago';toast('❌ Error al guardar. Intenta de nuevo.')}
+}
+
+function finalizarPedido(){cart={};updateBadge();closeQR();setPage('tienda');renderTienda()}
+
+// ── ADMIN ──
+async function renderAdmin(){
+  document.getElementById('admin-metrics').innerHTML='<div class="loading"><div class="spinner"></div> Cargando...</div>';
+  try{
+    const pedidos=await sbGet('pedidos?order=created_at.desc&limit=100');
+    const hoy=new Date().toISOString().split('T')[0];
+    const ph=pedidos.filter(p=>p.created_at.startsWith(hoy));
+    const th=ph.reduce((s,p)=>s+p.total,0);
+    const tg=pedidos.reduce((s,p)=>s+p.total,0);
+    document.getElementById('admin-metrics').innerHTML=`
+      <div class="metric"><div class="metric-label">Pedidos hoy</div><div class="metric-val">${ph.length}</div><div class="metric-delta">Total: ${pedidos.length} pedidos</div></div>
+      <div class="metric"><div class="metric-label">Ingresos hoy</div><div class="metric-val" style="font-size:17px">${COP(th)}</div><div class="metric-delta">Total acumulado: ${COP(tg)}</div></div>
+      <div class="metric"><div class="metric-label">Sabores activos</div><div class="metric-val">${FLAVORS.filter(f=>f.stock>0).length}</div><div class="metric-delta">de ${FLAVORS.length} sabores</div></div>
+      <div class="metric"><div class="metric-label">Agotados</div><div class="metric-val" style="color:${FLAVORS.filter(f=>f.stock===0).length>0?'#c0392b':'#3B6D11'}">${FLAVORS.filter(f=>f.stock===0).length}</div><div class="metric-delta">${FLAVORS.filter(f=>f.stock===0).length>0?'Reabastecer pronto':'Todo en stock'}</div></div>`;
+    const recent=pedidos.slice(0,15);
+    document.getElementById('orders-tbody').innerHTML=recent.length
+      ?recent.map(p=>`<tr><td style="font-weight:600;font-size:12px">${p.numero_orden}</td><td>${new Date(p.created_at).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}</td><td style="color:#D4537E;font-weight:600">${COP(p.total)}</td><td>${p.metodo_pago==='nequi'?'💜 Nequi':'🏦 PSE'}</td><td><span class="estado-pill est-${p.estado}">${p.estado}</span></td></tr>`).join('')
+      :'<tr><td colspan="5" style="text-align:center;padding:20px;color:#888">Sin pedidos aún</td></tr>';
+  }catch(e){document.getElementById('admin-metrics').innerHTML='<div style="color:#c0392b;padding:1rem">Error cargando datos</div>'}
+}
+
+async function renderInv(){
+  const ag=FLAVORS.filter(f=>f.stock===0).length;
+  const bj=FLAVORS.filter(f=>f.stock>0&&f.stock<=3).length;
+  const ts=FLAVORS.reduce((s,f)=>s+f.stock,0);
+  document.getElementById('inv-metrics').innerHTML=`
+    <div class="metric"><div class="metric-label">Total en stock</div><div class="metric-val">${ts}</div></div>
+    <div class="metric"><div class="metric-label">Activos</div><div class="metric-val">${FLAVORS.filter(f=>f.stock>0).length}</div></div>
+    <div class="metric"><div class="metric-label">Stock bajo (≤3)</div><div class="metric-val" style="color:#854F0B">${bj}</div></div>
+    <div class="metric"><div class="metric-label">Agotados</div><div class="metric-val" style="color:#c0392b">${ag}</div></div>`;
+  document.getElementById('inv-tbody').innerHTML=FLAVORS.map(f=>{
+    const si=stockInfo(f.stock);
+    return`<tr><td>${f.emoji}</td><td style="font-weight:600">${f.nombre}</td><td><span class="tag tag-${f.categoria}">${f.categoria}</span></td><td><input class="stock-input" type="number" min="0" max="999" value="${f.stock}" id="stock-${f.id}"> <span class="sbadge ${si.cls}">${si.txt}</span></td><td style="color:#D4537E;font-weight:600">${COP(f.precio)}</td><td><button class="save-btn" onclick="saveStock(${f.id})">Guardar</button></td></tr>`;
+  }).join('');
+}
+
+async function saveStock(id){
+  const f=FLAVORS.find(x=>x.id===id);
+  const inp=document.getElementById('stock-'+id);
+  if(!f||!inp)return;
+  const nuevoStock=parseInt(inp.value)||0;
+  try{await sbPatch('sabores?id=eq.'+id,{stock:nuevoStock});f.stock=nuevoStock;toast('✅ Stock de '+f.nombre+' actualizado');renderInv();renderTienda()}
+  catch(e){toast('❌ Error al actualizar el stock')}
+}
+
+async function renderPedidos(){
+  try{
+    const pedidos=await sbGet('pedidos?order=created_at.desc&limit=200');
+    document.getElementById('pedidos-tbody').innerHTML=pedidos.length
+      ?pedidos.map(p=>`<tr><td style="font-weight:600;font-size:12px">${p.numero_orden}</td><td>${new Date(p.created_at).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}</td><td style="color:#D4537E;font-weight:600">${COP(p.total)}</td><td>${p.metodo_pago==='nequi'?'💜 Nequi':'🏦 PSE'}</td><td><span class="estado-pill est-${p.estado}">${p.estado}</span></td></tr>`).join('')
+      :'<tr><td colspan="5" style="text-align:center;padding:20px;color:#888">Sin pedidos aún</td></tr>';
+  }catch(e){toast('❌ Error cargando pedidos')}
+}
+
+// ── NAVEGACIÓN ──
+function setPage(p){
+  ['tienda','carrito','login','admin','inv','pedidos'].forEach(x=>{
+    document.getElementById('page-'+x).classList.toggle('active',x===p);
+    const n=document.getElementById('nav-'+x);
+    if(n)n.classList.toggle('active',x===p);
+  });
+  const T={tienda:'Nuestros sabores',carrito:'Mi pedido',login:'Acceso restringido',admin:'Dashboard',inv:'Inventario',pedidos:'Historial de pedidos'};
+  const S={tienda:'Elige y paga fácil',carrito:'Revisa y paga',login:'',admin:'Análisis en tiempo real',inv:'Control de stock',pedidos:'Todos los pedidos'};
+  document.getElementById('topbar-title').textContent=T[p]||'';
+  document.getElementById('topbar-sub').textContent=S[p]||'';
+  if(p==='carrito')renderCarrito();
+  if(p==='admin')renderAdmin();
+  if(p==='inv')renderInv();
+  if(p==='pedidos')renderPedidos();
+  if(p==='login')setTimeout(()=>document.getElementById('login-pass').focus(),100);
+}
+
+loadFlavors();
+</script>
+</body>
+</html>
