@@ -8,8 +8,6 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f3f5;font-size:15px}
 .app-shell{display:flex;min-height:100vh}
-
-/* SIDEBAR */
 .sidebar{width:64px;background:#fff;border-right:1px solid #e8e0e4;display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;flex-shrink:0;position:sticky;top:0;height:100vh}
 .nav-logo{width:40px;height:40px;border-radius:50%;background:#fce8f0;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:8px}
 .nav-sep{width:32px;height:1px;background:#e8e0e4;margin:4px 0}
@@ -18,24 +16,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .nav-item.active{background:#fce8f0;color:#D4537E}
 .nav-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .nav-badge{position:absolute;top:5px;right:5px;background:#D4537E;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:600}
-
-/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;min-width:0}
 .topbar{background:#fff;border-bottom:1px solid #e8e0e4;padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;position:sticky;top:0;z-index:10}
 .topbar-title{font-size:15px;font-weight:600;color:#1a1a1a}
 .topbar-sub{font-size:12px;color:#888}
 .topbar-right{display:flex;align-items:center;gap:8px}
-
-/* BOTÓN ADMIN DISCRETO (solo ícono de candado, sin texto) */
 .admin-lock-btn{width:36px;height:36px;border-radius:50%;border:1px solid #e8e0e4;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#ccc;transition:all .15s}
 .admin-lock-btn:hover{border-color:#D4537E;color:#D4537E;background:#fce8f0}
 .admin-lock-btn.unlocked{color:#D4537E;border-color:#D4537E;background:#fce8f0}
 .admin-lock-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
+.logout-btn{padding:5px 12px;border-radius:50px;border:1px solid #e0d8dc;font-size:12px;cursor:pointer;color:#888;background:#fff;display:none;align-items:center;gap:5px}
+.logout-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.logout-btn:hover{background:#fce8f0;color:#D4537E}
 .page{display:none;padding:16px;max-width:1200px}
 .page.active{display:block}
 
-/* LOGIN MODAL (in-flow) */
+/* LOGIN */
 .login-overlay{display:none;background:rgba(30,10,20,.55);padding:2rem 1rem;align-items:center;justify-content:center;min-height:300px}
 .login-overlay.show{display:flex}
 .login-sheet{background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:300px;text-align:center}
@@ -51,11 +47,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-cancel-login{width:100%;padding:10px;background:#f5f0f2;color:#666;border:1px solid #e0d8dc;border-radius:10px;font-size:13px;cursor:pointer}
 .login-error{font-size:12px;color:#c0392b;margin-bottom:10px;display:none}
 
-/* Logout pill (solo visible en modo admin) */
-.logout-btn{padding:5px 12px;border-radius:50px;border:1px solid #e0d8dc;font-size:12px;cursor:pointer;color:#888;background:#fff;display:none;align-items:center;gap:5px}
-.logout-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.logout-btn:hover{background:#fce8f0;color:#D4537E;border-color:#e8afc4}
-
 /* LOADING */
 .loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:#888;gap:10px;font-size:14px}
 .spinner{width:20px;height:20px;border:2px solid #e8e0e4;border-top-color:#D4537E;border-radius:50%;animation:spin .7s linear infinite}
@@ -67,7 +58,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .metric-label{font-size:12px;color:#888;margin-bottom:4px}
 .metric-val{font-size:22px;font-weight:600;color:#1a1a1a}
 .metric-delta{font-size:11px;margin-top:2px;color:#3B6D11}
-
 .sh{font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;margin-top:16px}
 .sh:first-child{margin-top:0}
 
@@ -145,17 +135,49 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-cancel{width:100%;padding:10px;background:#f5f0f2;color:#666;border:1px solid #e0d8dc;border-radius:10px;font-size:13px;cursor:pointer}
 .order-pill{display:inline-block;background:#e6f4d7;color:#3B6D11;border-radius:50px;padding:5px 16px;font-size:13px;font-weight:600;margin-top:10px}
 
-/* TABLAS ADMIN */
+/* INVENTARIO */
 .inv-table-wrap,.orders-table-wrap{overflow-x:auto;margin-bottom:16px;background:#fff;border:1px solid #e8e0e4;border-radius:12px}
 .inv-table,.orders-table{width:100%;border-collapse:collapse;font-size:13px}
 .inv-table th,.orders-table th{text-align:left;padding:10px 12px;border-bottom:1px solid #e8e0e4;color:#888;font-weight:600;font-size:12px;background:#fafafa}
 .inv-table td,.orders-table td{padding:10px 12px;border-bottom:1px solid #f5f0f2;color:#1a1a1a;vertical-align:middle}
 .inv-table tr:last-child td,.orders-table tr:last-child td{border-bottom:none}
 .inv-table tr:hover td,.orders-table tr:hover td{background:#fff8fa}
-.inv-table{table-layout:fixed}
-.stock-input{width:65px;padding:5px 8px;border:1px solid #e0d8dc;border-radius:6px;background:#fff;color:#1a1a1a;font-size:13px;text-align:center}
-.save-btn{padding:5px 12px;background:#639922;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500}
+.stock-input{width:70px;padding:6px 8px;border:1.5px solid #e0d8dc;border-radius:8px;background:#fff;color:#1a1a1a;font-size:14px;text-align:center;font-weight:500}
+.stock-input:focus{outline:none;border-color:#D4537E}
+.save-btn{padding:6px 12px;background:#639922;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600}
 .save-btn:hover{background:#3B6D11}
+.del-btn{padding:6px 10px;background:#fff;color:#c0392b;border:1.5px solid #f5c0c0;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;transition:all .15s}
+.del-btn:hover{background:#fde8e8;border-color:#c0392b}
+
+/* FORMULARIO AGREGAR SABOR */
+.add-flavor-card{background:#fff;border:2px dashed #e8e0e4;border-radius:12px;padding:20px;margin-bottom:16px}
+.add-flavor-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.add-flavor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.form-field{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.4px}
+.form-input{padding:8px 12px;border:1.5px solid #e8e0e4;border-radius:8px;font-size:13px;color:#1a1a1a;background:#fff;outline:none}
+.form-input:focus{border-color:#D4537E}
+.form-select{padding:8px 12px;border:1.5px solid #e8e0e4;border-radius:8px;font-size:13px;color:#1a1a1a;background:#fff;outline:none;cursor:pointer}
+.form-select:focus{border-color:#D4537E}
+.btn-add-flavor{padding:10px 24px;background:#D4537E;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:6px}
+.btn-add-flavor:hover{background:#b8405e}
+.btn-add-flavor:disabled{background:#ccc;cursor:not-allowed}
+
+/* ALERTA STOCK BAJO */
+.inv-alert{background:#fff8e6;border:1px solid #ffd88a;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#854F0B;display:flex;align-items:center;gap:8px}
+
+/* CONFIRMAR ELIMINAR */
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(30,10,20,.55);z-index:200;align-items:center;justify-content:center}
+.confirm-overlay.show{display:flex}
+.confirm-sheet{background:#fff;border-radius:16px;padding:1.5rem;width:90%;max-width:300px;text-align:center}
+.confirm-icon{font-size:36px;margin-bottom:10px}
+.confirm-title{font-size:16px;font-weight:600;color:#1a1a1a;margin-bottom:6px}
+.confirm-sub{font-size:13px;color:#888;margin-bottom:20px}
+.confirm-btns{display:flex;gap:8px}
+.btn-delete-confirm{flex:1;padding:11px;background:#c0392b;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
+.btn-delete-cancel{flex:1;padding:11px;background:#f5f0f2;color:#666;border:1px solid #e0d8dc;border-radius:10px;font-size:13px;cursor:pointer}
+
+/* ESTADO PEDIDOS */
 .estado-pill{display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600}
 .est-confirmado{background:#e6f4d7;color:#3B6D11}
 .est-pendiente{background:#fff0d6;color:#854F0B}
@@ -166,9 +188,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </style>
 </head>
 <body>
-
 <div class="app-shell">
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="nav-logo">🍦</div>
     <div class="nav-sep"></div>
@@ -180,9 +200,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="nav-badge" id="cart-badge" style="display:none">0</div>
     </div>
     <div class="nav-sep" id="admin-sep" style="display:none"></div>
-    <div class="nav-item" id="nav-admin" onclick="setPage('admin')" title="Dashboard" style="display:none">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-    </div>
     <div class="nav-item" id="nav-inv" onclick="setPage('inv')" title="Inventario" style="display:none">
       <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
     </div>
@@ -191,7 +208,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
   </div>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
       <div>
@@ -199,12 +215,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="topbar-sub" id="topbar-sub">Elige y paga fácil</div>
       </div>
       <div class="topbar-right">
-        <!-- Botón cerrar sesión admin (solo visible cuando está logueado) -->
         <div class="logout-btn" id="logout-btn" onclick="logoutAdmin()">
           <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Salir
         </div>
-        <!-- Candado discreto: el cliente ni lo nota, el dueño sabe que existe -->
         <div class="admin-lock-btn" id="lock-btn" onclick="showLogin()" title="Acceso administrador">
           <svg id="lock-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         </div>
@@ -215,9 +229,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="page active" id="page-tienda">
       <div class="search-row"><input type="text" id="search-input" placeholder="Buscar sabor..." oninput="renderTienda()"></div>
       <div class="cat-pills" id="cat-pills"></div>
-      <div id="flavor-grid-wrap">
-        <div class="loading"><div class="spinner"></div> Cargando sabores...</div>
-      </div>
+      <div id="flavor-grid-wrap"><div class="loading"><div class="spinner"></div> Cargando sabores...</div></div>
     </div>
 
     <!-- CARRITO -->
@@ -267,51 +279,84 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
-    <!-- LOGIN ADMIN (in-flow) -->
+    <!-- LOGIN -->
     <div class="page" id="page-login">
       <div class="login-overlay show">
         <div class="login-sheet">
           <div class="login-logo">🔐</div>
           <div class="login-title">Acceso administrador</div>
-          <div class="login-sub">Ingresa la contraseña para continuar</div>
+          <div class="login-sub">Ingresa la contraseña para gestionar el inventario</div>
           <div class="login-error" id="login-error">Contraseña incorrecta</div>
-          <input class="login-input" type="password" id="login-pass" placeholder="••••••••"
-            onkeydown="if(event.key==='Enter')doLogin()">
-          <button class="btn-login" onclick="doLogin()">Entrar</button>
+          <input class="login-input" type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="btn-login" onclick="doLogin()">Entrar al inventario</button>
           <button class="btn-cancel-login" onclick="cancelLogin()">Cancelar</button>
         </div>
-      </div>
-    </div>
-
-    <!-- ADMIN DASHBOARD -->
-    <div class="page" id="page-admin">
-      <div class="metrics" id="admin-metrics">
-        <div class="loading"><div class="spinner"></div> Cargando datos...</div>
-      </div>
-      <div class="sh">Últimos pedidos</div>
-      <div class="orders-table-wrap">
-        <table class="orders-table">
-          <thead><tr><th>Orden</th><th>Fecha</th><th>Total</th><th>Pago</th><th>Estado</th></tr></thead>
-          <tbody id="orders-tbody"><tr><td colspan="5" style="text-align:center;padding:20px;color:#888">Cargando...</td></tr></tbody>
-        </table>
       </div>
     </div>
 
     <!-- INVENTARIO -->
     <div class="page" id="page-inv">
       <div class="metrics" id="inv-metrics"></div>
-      <div class="sh">Gestión de stock</div>
+      <div id="inv-alert-wrap"></div>
+
+      <!-- FORMULARIO AGREGAR SABOR -->
+      <div class="add-flavor-card">
+        <div class="add-flavor-title">➕ Agregar nuevo sabor</div>
+        <div class="add-flavor-grid">
+          <div class="form-field">
+            <div class="form-label">Emoji</div>
+            <input class="form-input" type="text" id="new-emoji" placeholder="🍓" maxlength="4" style="font-size:20px;text-align:center">
+          </div>
+          <div class="form-field">
+            <div class="form-label">Nombre</div>
+            <input class="form-input" type="text" id="new-nombre" placeholder="Ej: Tamarindo">
+          </div>
+          <div class="form-field">
+            <div class="form-label">Categoría</div>
+            <select class="form-select" id="new-categoria">
+              <option value="frutas">🍓 Frutas</option>
+              <option value="clasicos">🍦 Clásicos</option>
+              <option value="tropicales">🥭 Tropicales</option>
+              <option value="especiales">⭐ Especiales</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <div class="form-label">Precio (COP)</div>
+            <input class="form-input" type="number" id="new-precio" placeholder="8000" min="0" step="500">
+          </div>
+          <div class="form-field">
+            <div class="form-label">Unidades iniciales</div>
+            <input class="form-input" type="number" id="new-stock" placeholder="10" min="0">
+          </div>
+        </div>
+        <button class="btn-add-flavor" id="btn-agregar" onclick="agregarSabor()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Agregar sabor
+        </button>
+      </div>
+
+      <div class="sh">Sabores activos — actualiza stock o elimina</div>
       <div class="inv-table-wrap">
-        <table class="inv-table">
-          <thead><tr><th style="width:36px"></th><th>Sabor</th><th style="width:85px">Categ.</th><th style="width:100px">Stock</th><th style="width:90px">Precio</th><th style="width:70px">Guardar</th></tr></thead>
+        <table class="inv-table" style="table-layout:auto">
+          <thead>
+            <tr>
+              <th style="width:36px"></th>
+              <th>Sabor</th>
+              <th style="width:90px">Categoría</th>
+              <th style="width:120px">Unidades</th>
+              <th style="width:90px">Precio</th>
+              <th style="width:76px">Guardar</th>
+              <th style="width:76px">Eliminar</th>
+            </tr>
+          </thead>
           <tbody id="inv-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- HISTORIAL PEDIDOS -->
+    <!-- PEDIDOS -->
     <div class="page" id="page-pedidos">
-      <div class="sh">Historial completo de pedidos</div>
+      <div class="sh">Historial de pedidos</div>
       <div class="orders-table-wrap">
         <table class="orders-table">
           <thead><tr><th>Orden</th><th>Fecha y hora</th><th>Total</th><th>Pago</th><th>Estado</th></tr></thead>
@@ -322,27 +367,47 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
+<!-- MODAL CONFIRMAR ELIMINAR -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-sheet">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title" id="confirm-title">¿Eliminar sabor?</div>
+    <div class="confirm-sub" id="confirm-sub">Esta acción no se puede deshacer</div>
+    <div class="confirm-btns">
+      <button class="btn-delete-cancel" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn-delete-confirm" onclick="confirmarEliminar()">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPA_URL = 'https://rvvfdwbkheyknspdbuay.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dmZkd2JraGV5a25zcGRidWF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyNTI2NjcsImV4cCI6MjA5NTgyODY2N30.9qOXuu95fcTb3BltP2NpAViOQ84k3Ai8Oiq4EqI7RSw';
-const ADMIN_PASS = 'cremas2025'; // ← Cambia esta contraseña
-const H = {'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
+const SUPA_URL='https://rvvfdwbkheyknspdbuay.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dmZkd2JraGV5a25zcGRidWF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyNTI2NjcsImV4cCI6MjA5NTgyODY2N30.9qOXuu95fcTb3BltP2NpAViOQ84k3Ai8Oiq4EqI7RSw';
+const ADMIN_PASS='cremas2025';
+const H={'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
 
-async function sbGet(path){const r=await fetch(SUPA_URL+'/rest/v1/'+path,{headers:{...H,'Prefer':'return=representation'}});return r.json()}
-async function sbPost(path,body){const r=await fetch(SUPA_URL+'/rest/v1/'+path,{method:'POST',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});return r.json()}
-async function sbPatch(path,body){const r=await fetch(SUPA_URL+'/rest/v1/'+path,{method:'PATCH',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});return r.json()}
+async function sbGet(p){const r=await fetch(SUPA_URL+'/rest/v1/'+p,{headers:{...H,'Prefer':'return=representation'}});return r.json()}
+async function sbPost(p,b){const r=await fetch(SUPA_URL+'/rest/v1/'+p,{method:'POST',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(b)});return r.json()}
+async function sbPatch(p,b){const r=await fetch(SUPA_URL+'/rest/v1/'+p,{method:'PATCH',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(b)});return r.json()}
+async function sbDelete(p){const r=await fetch(SUPA_URL+'/rest/v1/'+p,{method:'DELETE',headers:H});return r.ok}
 
 const COP=v=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',minimumFractionDigits:0}).format(v);
 const CATS=['todos','frutas','clasicos','tropicales','especiales'];
-let FLAVORS=[],cart={},selectedCat='todos',selectedPay='nequi';
-let isAdmin=false,prevPage='tienda';
+let FLAVORS=[],cart={},selectedCat='todos',selectedPay='nequi',prevPage='tienda';
+let deleteTargetId=null;
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
-function stockInfo(s){if(s===0)return{txt:'Agotado',cls:'s-out'};if(s<=3)return{txt:'Solo '+s,cls:'s-low'};return{txt:'Disponible',cls:'s-ok'}}
 
-// ── LOGIN ADMIN ──
+function stockInfo(s){
+  if(s===0) return{txt:'Agotado',cls:'s-out'};
+  if(s<=3)  return{txt:'Solo '+s,cls:'s-low'};
+  if(s<=10) return{txt:s+' und.',cls:'s-ok'};
+  return          {txt:s+' disp.',cls:'s-ok'};
+}
+
+// ── LOGIN ──
 function showLogin(){
   prevPage=document.querySelector('.page.active')?.id.replace('page-','')||'tienda';
   document.getElementById('login-pass').value='';
@@ -350,37 +415,27 @@ function showLogin(){
   document.getElementById('login-pass').classList.remove('error');
   setPage('login');
 }
-
 function doLogin(){
   const pass=document.getElementById('login-pass').value;
   if(pass===ADMIN_PASS){
-    isAdmin=true;
-    // Mostrar opciones admin
-    ['admin','inv','pedidos'].forEach(x=>{document.getElementById('nav-'+x).style.display='flex'});
+    ['inv','pedidos'].forEach(x=>document.getElementById('nav-'+x).style.display='flex');
     document.getElementById('admin-sep').style.display='block';
     document.getElementById('lock-btn').classList.add('unlocked');
     document.getElementById('logout-btn').style.display='flex';
-    // Cambiar ícono candado a abierto
     document.getElementById('lock-icon').innerHTML='<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 019.9-1"/>';
-    setPage('admin');
-    toast('✅ Bienvenido, administrador');
+    setPage('inv');
+    toast('✅ Bienvenido — gestiona tu inventario');
   } else {
     const inp=document.getElementById('login-pass');
-    const err=document.getElementById('login-error');
     inp.classList.add('error');
-    err.style.display='block';
+    document.getElementById('login-error').style.display='block';
     setTimeout(()=>inp.classList.remove('error'),400);
     inp.value='';
   }
 }
-
-function cancelLogin(){
-  setPage(prevPage||'tienda');
-}
-
+function cancelLogin(){setPage(prevPage||'tienda')}
 function logoutAdmin(){
-  isAdmin=false;
-  ['admin','inv','pedidos'].forEach(x=>{document.getElementById('nav-'+x).style.display='none'});
+  ['inv','pedidos'].forEach(x=>document.getElementById('nav-'+x).style.display='none');
   document.getElementById('admin-sep').style.display='none';
   document.getElementById('lock-btn').classList.remove('unlocked');
   document.getElementById('logout-btn').style.display='none';
@@ -467,8 +522,7 @@ async function confirmPago(){
   const btn=document.getElementById('btn-confirm-pago');
   btn.disabled=true;btn.textContent='Guardando...';
   try{
-    const total=cartTotal();
-    const numOrden='ORD-'+Date.now();
+    const total=cartTotal(),numOrden='ORD-'+Date.now();
     const [pedido]=await sbPost('pedidos',{numero_orden:numOrden,total,metodo_pago:selectedPay,estado:'confirmado'});
     const items=Object.entries(cart).filter(([,q])=>q>0).map(([id,qty])=>{const f=FLAVORS.find(x=>x.id==id);return{pedido_id:pedido.id,sabor_id:parseInt(id),cantidad:qty,precio_unit:f.precio}});
     await sbPost('pedido_items',items);
@@ -476,9 +530,9 @@ async function confirmPago(){
     for(const [id,qty] of Object.entries(cart)){
       if(qty<=0)continue;
       const f=FLAVORS.find(x=>x.id==id);if(!f)continue;
-      const nuevoStock=Math.max(0,f.stock-qty);
-      await sbPatch('sabores?id=eq.'+id,{stock:nuevoStock});
-      f.stock=nuevoStock;
+      const ns=Math.max(0,f.stock-qty);
+      await sbPatch('sabores?id=eq.'+id,{stock:ns});
+      f.stock=ns;
     }
     document.getElementById('qr-pay-view').style.display='none';
     document.getElementById('qr-success-view').style.display='block';
@@ -486,42 +540,38 @@ async function confirmPago(){
     toast('✅ Pedido guardado correctamente');
   }catch(e){btn.disabled=false;btn.textContent='✓ Confirmar pago';toast('❌ Error al guardar. Intenta de nuevo.')}
 }
-
 function finalizarPedido(){cart={};updateBadge();closeQR();setPage('tienda');renderTienda()}
 
-// ── ADMIN ──
-async function renderAdmin(){
-  document.getElementById('admin-metrics').innerHTML='<div class="loading"><div class="spinner"></div> Cargando...</div>';
-  try{
-    const pedidos=await sbGet('pedidos?order=created_at.desc&limit=100');
-    const hoy=new Date().toISOString().split('T')[0];
-    const ph=pedidos.filter(p=>p.created_at.startsWith(hoy));
-    const th=ph.reduce((s,p)=>s+p.total,0);
-    const tg=pedidos.reduce((s,p)=>s+p.total,0);
-    document.getElementById('admin-metrics').innerHTML=`
-      <div class="metric"><div class="metric-label">Pedidos hoy</div><div class="metric-val">${ph.length}</div><div class="metric-delta">Total: ${pedidos.length} pedidos</div></div>
-      <div class="metric"><div class="metric-label">Ingresos hoy</div><div class="metric-val" style="font-size:17px">${COP(th)}</div><div class="metric-delta">Total acumulado: ${COP(tg)}</div></div>
-      <div class="metric"><div class="metric-label">Sabores activos</div><div class="metric-val">${FLAVORS.filter(f=>f.stock>0).length}</div><div class="metric-delta">de ${FLAVORS.length} sabores</div></div>
-      <div class="metric"><div class="metric-label">Agotados</div><div class="metric-val" style="color:${FLAVORS.filter(f=>f.stock===0).length>0?'#c0392b':'#3B6D11'}">${FLAVORS.filter(f=>f.stock===0).length}</div><div class="metric-delta">${FLAVORS.filter(f=>f.stock===0).length>0?'Reabastecer pronto':'Todo en stock'}</div></div>`;
-    const recent=pedidos.slice(0,15);
-    document.getElementById('orders-tbody').innerHTML=recent.length
-      ?recent.map(p=>`<tr><td style="font-weight:600;font-size:12px">${p.numero_orden}</td><td>${new Date(p.created_at).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}</td><td style="color:#D4537E;font-weight:600">${COP(p.total)}</td><td>${p.metodo_pago==='nequi'?'💜 Nequi':'🏦 PSE'}</td><td><span class="estado-pill est-${p.estado}">${p.estado}</span></td></tr>`).join('')
-      :'<tr><td colspan="5" style="text-align:center;padding:20px;color:#888">Sin pedidos aún</td></tr>';
-  }catch(e){document.getElementById('admin-metrics').innerHTML='<div style="color:#c0392b;padding:1rem">Error cargando datos</div>'}
-}
-
-async function renderInv(){
+// ── INVENTARIO ──
+function renderInv(){
   const ag=FLAVORS.filter(f=>f.stock===0).length;
   const bj=FLAVORS.filter(f=>f.stock>0&&f.stock<=3).length;
   const ts=FLAVORS.reduce((s,f)=>s+f.stock,0);
   document.getElementById('inv-metrics').innerHTML=`
-    <div class="metric"><div class="metric-label">Total en stock</div><div class="metric-val">${ts}</div></div>
-    <div class="metric"><div class="metric-label">Activos</div><div class="metric-val">${FLAVORS.filter(f=>f.stock>0).length}</div></div>
-    <div class="metric"><div class="metric-label">Stock bajo (≤3)</div><div class="metric-val" style="color:#854F0B">${bj}</div></div>
-    <div class="metric"><div class="metric-label">Agotados</div><div class="metric-val" style="color:#c0392b">${ag}</div></div>`;
+    <div class="metric"><div class="metric-label">Total en stock</div><div class="metric-val">${ts}</div><div class="metric-delta">unidades totales</div></div>
+    <div class="metric"><div class="metric-label">Sabores activos</div><div class="metric-val">${FLAVORS.filter(f=>f.stock>0).length}</div><div class="metric-delta">de ${FLAVORS.length} sabores</div></div>
+    <div class="metric"><div class="metric-label">Stock bajo ≤3</div><div class="metric-val" style="color:#854F0B">${bj}</div><div class="metric-delta" style="color:#854F0B">${bj>0?'Reabastecer pronto':'Ninguno'}</div></div>
+    <div class="metric"><div class="metric-label">Agotados</div><div class="metric-val" style="color:${ag>0?'#c0392b':'#3B6D11'}">${ag}</div><div class="metric-delta" style="color:${ag>0?'#c0392b':'#3B6D11'}">${ag>0?'Sin stock':'Todo disponible'}</div></div>`;
+
+  const criticos=FLAVORS.filter(f=>f.stock<=3);
+  document.getElementById('inv-alert-wrap').innerHTML=criticos.length
+    ?`<div class="inv-alert">⚠️ <strong>Atención:</strong> ${criticos.map(f=>f.emoji+' '+f.nombre+(f.stock===0?' (agotado)':' (solo '+f.stock+')')).join(' · ')}</div>`:'';
+
   document.getElementById('inv-tbody').innerHTML=FLAVORS.map(f=>{
     const si=stockInfo(f.stock);
-    return`<tr><td>${f.emoji}</td><td style="font-weight:600">${f.nombre}</td><td><span class="tag tag-${f.categoria}">${f.categoria}</span></td><td><input class="stock-input" type="number" min="0" max="999" value="${f.stock}" id="stock-${f.id}"> <span class="sbadge ${si.cls}">${si.txt}</span></td><td style="color:#D4537E;font-weight:600">${COP(f.precio)}</td><td><button class="save-btn" onclick="saveStock(${f.id})">Guardar</button></td></tr>`;
+    const rowStyle=f.stock===0?'background:#fff8f8':f.stock<=3?'background:#fffbf0':'';
+    return`<tr style="${rowStyle}">
+      <td style="font-size:20px">${f.emoji}</td>
+      <td style="font-weight:600">${f.nombre}</td>
+      <td><span class="tag tag-${f.categoria}">${f.categoria}</span></td>
+      <td>
+        <input class="stock-input" type="number" min="0" max="999" value="${f.stock}" id="stock-${f.id}">
+        <span class="sbadge ${si.cls}" style="margin-left:6px">${si.txt}</span>
+      </td>
+      <td style="color:#D4537E;font-weight:600">${COP(f.precio)}</td>
+      <td><button class="save-btn" onclick="saveStock(${f.id})">Guardar</button></td>
+      <td><button class="del-btn" onclick="pedirEliminar(${f.id},'${f.nombre}','${f.emoji}')">🗑️</button></td>
+    </tr>`;
   }).join('');
 }
 
@@ -529,33 +579,93 @@ async function saveStock(id){
   const f=FLAVORS.find(x=>x.id===id);
   const inp=document.getElementById('stock-'+id);
   if(!f||!inp)return;
-  const nuevoStock=parseInt(inp.value)||0;
-  try{await sbPatch('sabores?id=eq.'+id,{stock:nuevoStock});f.stock=nuevoStock;toast('✅ Stock de '+f.nombre+' actualizado');renderInv();renderTienda()}
-  catch(e){toast('❌ Error al actualizar el stock')}
+  const ns=parseInt(inp.value)||0;
+  try{
+    await sbPatch('sabores?id=eq.'+id,{stock:ns});
+    f.stock=ns;
+    toast('✅ '+f.nombre+': '+ns+' unidades guardadas');
+    renderInv();renderTienda();
+  }catch(e){toast('❌ Error al actualizar el stock')}
 }
 
+// ── ELIMINAR SABOR ──
+function pedirEliminar(id,nombre,emoji){
+  deleteTargetId=id;
+  document.getElementById('confirm-title').textContent='¿Eliminar '+emoji+' '+nombre+'?';
+  document.getElementById('confirm-sub').textContent='Este sabor desaparecerá del menú de clientes. No se puede deshacer.';
+  document.getElementById('confirm-overlay').classList.add('show');
+}
+function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('show');deleteTargetId=null}
+async function confirmarEliminar(){
+  if(!deleteTargetId)return;
+  try{
+    // Marcamos como inactivo en lugar de borrar físicamente (preserva historial de pedidos)
+    await sbPatch('sabores?id=eq.'+deleteTargetId,{activo:false});
+    FLAVORS=FLAVORS.filter(f=>f.id!==deleteTargetId);
+    closeConfirm();
+    toast('🗑️ Sabor eliminado del menú');
+    renderInv();renderTienda();
+  }catch(e){toast('❌ Error al eliminar el sabor')}
+}
+
+// ── AGREGAR SABOR ──
+async function agregarSabor(){
+  const emoji=document.getElementById('new-emoji').value.trim()||'🍦';
+  const nombre=document.getElementById('new-nombre').value.trim();
+  const categoria=document.getElementById('new-categoria').value;
+  const precio=parseInt(document.getElementById('new-precio').value)||0;
+  const stock=parseInt(document.getElementById('new-stock').value)||0;
+
+  if(!nombre){toast('⚠️ Escribe el nombre del sabor');document.getElementById('new-nombre').focus();return}
+  if(!precio){toast('⚠️ Ingresa el precio');document.getElementById('new-precio').focus();return}
+
+  const btn=document.getElementById('btn-agregar');
+  btn.disabled=true;btn.textContent='Guardando...';
+  try{
+    const [nuevo]=await sbPost('sabores',{nombre,emoji,categoria,precio,stock,activo:true});
+    FLAVORS.push(nuevo);
+    FLAVORS.sort((a,b)=>a.nombre.localeCompare(b.nombre));
+    // Limpiar formulario
+    document.getElementById('new-emoji').value='';
+    document.getElementById('new-nombre').value='';
+    document.getElementById('new-precio').value='';
+    document.getElementById('new-stock').value='';
+    toast('✅ '+emoji+' '+nombre+' agregado al menú');
+    renderInv();renderTienda();
+  }catch(e){toast('❌ Error al agregar el sabor')}
+  btn.disabled=false;btn.textContent='Agregar sabor';
+  // Restaurar ícono
+  btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Agregar sabor';
+}
+
+// ── PEDIDOS ──
 async function renderPedidos(){
   try{
     const pedidos=await sbGet('pedidos?order=created_at.desc&limit=200');
     document.getElementById('pedidos-tbody').innerHTML=pedidos.length
-      ?pedidos.map(p=>`<tr><td style="font-weight:600;font-size:12px">${p.numero_orden}</td><td>${new Date(p.created_at).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}</td><td style="color:#D4537E;font-weight:600">${COP(p.total)}</td><td>${p.metodo_pago==='nequi'?'💜 Nequi':'🏦 PSE'}</td><td><span class="estado-pill est-${p.estado}">${p.estado}</span></td></tr>`).join('')
+      ?pedidos.map(p=>`<tr>
+          <td style="font-weight:600;font-size:12px">${p.numero_orden}</td>
+          <td>${new Date(p.created_at).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}</td>
+          <td style="color:#D4537E;font-weight:600">${COP(p.total)}</td>
+          <td>${p.metodo_pago==='nequi'?'💜 Nequi':'🏦 PSE'}</td>
+          <td><span class="estado-pill est-${p.estado}">${p.estado}</span></td>
+        </tr>`).join('')
       :'<tr><td colspan="5" style="text-align:center;padding:20px;color:#888">Sin pedidos aún</td></tr>';
   }catch(e){toast('❌ Error cargando pedidos')}
 }
 
 // ── NAVEGACIÓN ──
 function setPage(p){
-  ['tienda','carrito','login','admin','inv','pedidos'].forEach(x=>{
+  ['tienda','carrito','login','inv','pedidos'].forEach(x=>{
     document.getElementById('page-'+x).classList.toggle('active',x===p);
     const n=document.getElementById('nav-'+x);
     if(n)n.classList.toggle('active',x===p);
   });
-  const T={tienda:'Nuestros sabores',carrito:'Mi pedido',login:'Acceso restringido',admin:'Dashboard',inv:'Inventario',pedidos:'Historial de pedidos'};
-  const S={tienda:'Elige y paga fácil',carrito:'Revisa y paga',login:'',admin:'Análisis en tiempo real',inv:'Control de stock',pedidos:'Todos los pedidos'};
+  const T={tienda:'Nuestros sabores',carrito:'Mi pedido',login:'Acceso administrador',inv:'Inventario',pedidos:'Historial de pedidos'};
+  const S={tienda:'Elige y paga fácil',carrito:'Revisa y paga',login:'Solo para el administrador',inv:'Agrega, edita o elimina sabores',pedidos:'Todos los pedidos registrados'};
   document.getElementById('topbar-title').textContent=T[p]||'';
   document.getElementById('topbar-sub').textContent=S[p]||'';
   if(p==='carrito')renderCarrito();
-  if(p==='admin')renderAdmin();
   if(p==='inv')renderInv();
   if(p==='pedidos')renderPedidos();
   if(p==='login')setTimeout(()=>document.getElementById('login-pass').focus(),100);
