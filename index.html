@@ -53,50 +53,46 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* MÉTRICAS */
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
 .metric{background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #e8e0e4}
 .metric-label{font-size:12px;color:#888;margin-bottom:4px}
-.metric-val{font-size:22px;font-weight:600;color:#1a1a1a}
+.metric-val{font-size:20px;font-weight:600;color:#1a1a1a}
 .metric-delta{font-size:11px;margin-top:2px;color:#3B6D11}
+.metric-green{border-left:3px solid #639922}
+.metric-pink{border-left:3px solid #D4537E}
+.metric-amber{border-left:3px solid #BA7517}
 .sh{font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;margin-top:16px}
 .sh:first-child{margin-top:0}
 
 /* BÚSQUEDA */
-.search-row{display:flex;gap:8px;margin-bottom:12px}
+.search-row{display:flex;gap:8px;margin-bottom:16px}
 .search-row input{flex:1;padding:9px 14px;border:1.5px solid #e8e0e4;border-radius:10px;background:#fff;color:#1a1a1a;font-size:13px;outline:none}
 .search-row input:focus{border-color:#D4537E}
-.cat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.cat-pill{padding:5px 13px;border-radius:50px;border:1.5px solid #e8e0e4;font-size:12px;cursor:pointer;color:#666;background:#fff;white-space:nowrap;transition:all .15s}
-.cat-pill.active{background:#D4537E;color:#fff;border-color:#D4537E}
-.cat-pill:hover:not(.active){border-color:#D4537E;color:#D4537E}
 
-/* GRILLA SABORES */
-.flavor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;margin-bottom:16px}
-.fcard{background:#fff;border:1.5px solid #e8e0e4;border-radius:12px;padding:12px;cursor:pointer;transition:all .15s;position:relative;display:flex;flex-direction:column}
-.fcard:hover:not(.out){border-color:#D4537E;box-shadow:0 0 0 3px #fce8f0}
-.fcard.in-cart{border-color:#D4537E;background:#fff5f8}
-.fcard.out{opacity:.5;cursor:not-allowed}
-.fcard-emoji{font-size:28px;margin-bottom:6px}
-.fcard-name{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
-.fcard-price{font-size:14px;font-weight:600;color:#D4537E;margin-top:auto}
-.fcard-add{margin-top:8px;padding:7px 0;width:100%;background:#D4537E;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;transition:background .15s;font-weight:500}
+/* GRILLA SABORES CON FOTO */
+.flavor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.fcard{background:#fff;border:1.5px solid #e8e0e4;border-radius:14px;overflow:hidden;cursor:pointer;transition:all .15s;position:relative;display:flex;flex-direction:column}
+.fcard:hover:not(.out){border-color:#D4537E;box-shadow:0 4px 16px rgba(212,83,126,.15)}
+.fcard.in-cart{border-color:#D4537E;box-shadow:0 4px 16px rgba(212,83,126,.2)}
+.fcard.out{opacity:.6;cursor:not-allowed}
+.fcard-img{width:100%;height:140px;object-fit:cover;background:#f5f0f2;display:block}
+.fcard-img-placeholder{width:100%;height:140px;background:linear-gradient(135deg,#fce8f0,#f5f0f2);display:flex;align-items:center;justify-content:center;font-size:48px}
+.fcard-body{padding:10px 12px 12px}
+.fcard-name{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.fcard-price{font-size:15px;font-weight:700;color:#D4537E;margin-bottom:8px}
+.fcard-add{padding:8px 0;width:100%;background:#D4537E;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;transition:background .15s;font-weight:600}
 .fcard-add:hover{background:#b8405e}
 .fcard-add.added{background:#639922}
-.fcard-add:disabled{background:#eee;color:#aaa;cursor:not-allowed}
-.sbadge{position:absolute;top:8px;right:8px;font-size:10px;padding:2px 7px;border-radius:50px;font-weight:600}
-.s-ok{background:#e6f4d7;color:#3B6D11}
-.s-low{background:#fff0d6;color:#854F0B}
-.s-out{background:#fde8e8;color:#c0392b}
-.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:50px;font-weight:500;margin-bottom:4px}
-.tag-frutas{background:#e6f4d7;color:#3B6D11}
-.tag-clasicos{background:#fce8f0;color:#993556}
-.tag-especiales{background:#e0ecfa;color:#185FA5}
-.tag-tropicales{background:#fff0d6;color:#854F0B}
+.fcard-add:disabled{background:#ddd;color:#aaa;cursor:not-allowed}
+.sbadge{position:absolute;top:10px;right:10px;font-size:10px;padding:3px 8px;border-radius:50px;font-weight:600;backdrop-filter:blur(4px)}
+.s-ok{background:rgba(230,244,215,.95);color:#3B6D11}
+.s-low{background:rgba(255,240,214,.95);color:#854F0B}
+.s-out{background:rgba(253,232,232,.95);color:#c0392b}
 
 /* CARRITO */
 .cart-list{margin-bottom:14px}
 .citem{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0e8ec}
-.citem-emoji{font-size:22px;width:32px;text-align:center}
+.citem-img{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#f5f0f2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px}
 .citem-info{flex:1;min-width:0}
 .citem-name{font-size:13px;font-weight:600;color:#1a1a1a}
 .citem-price{font-size:12px;color:#888}
@@ -135,36 +131,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-cancel{width:100%;padding:10px;background:#f5f0f2;color:#666;border:1px solid #e0d8dc;border-radius:10px;font-size:13px;cursor:pointer}
 .order-pill{display:inline-block;background:#e6f4d7;color:#3B6D11;border-radius:50px;padding:5px 16px;font-size:13px;font-weight:600;margin-top:10px}
 
-/* INVENTARIO */
+/* ADMIN INVENTARIO */
 .inv-table-wrap,.orders-table-wrap{overflow-x:auto;margin-bottom:16px;background:#fff;border:1px solid #e8e0e4;border-radius:12px}
 .inv-table,.orders-table{width:100%;border-collapse:collapse;font-size:13px}
 .inv-table th,.orders-table th{text-align:left;padding:10px 12px;border-bottom:1px solid #e8e0e4;color:#888;font-weight:600;font-size:12px;background:#fafafa}
 .inv-table td,.orders-table td{padding:10px 12px;border-bottom:1px solid #f5f0f2;color:#1a1a1a;vertical-align:middle}
 .inv-table tr:last-child td,.orders-table tr:last-child td{border-bottom:none}
 .inv-table tr:hover td,.orders-table tr:hover td{background:#fff8fa}
-.stock-input{width:70px;padding:6px 8px;border:1.5px solid #e0d8dc;border-radius:8px;background:#fff;color:#1a1a1a;font-size:14px;text-align:center;font-weight:500}
-.stock-input:focus{outline:none;border-color:#D4537E}
+.stock-input,.price-input{width:70px;padding:6px 8px;border:1.5px solid #e0d8dc;border-radius:8px;background:#fff;color:#1a1a1a;font-size:13px;text-align:center;font-weight:500}
+.stock-input:focus,.price-input:focus{outline:none;border-color:#D4537E}
 .save-btn{padding:6px 12px;background:#639922;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600}
 .save-btn:hover{background:#3B6D11}
 .del-btn{padding:6px 10px;background:#fff;color:#c0392b;border:1.5px solid #f5c0c0;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;transition:all .15s}
 .del-btn:hover{background:#fde8e8;border-color:#c0392b}
 
-/* FORMULARIO AGREGAR SABOR */
+/* FOTO UPLOAD */
+.foto-wrap{display:flex;align-items:center;gap:8px}
+.foto-preview{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid #e8e0e4;background:#f5f0f2;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden}
+.foto-preview img{width:100%;height:100%;object-fit:cover}
+.foto-upload-btn{padding:5px 10px;background:#fce8f0;color:#D4537E;border:1.5px solid #f4c0d1;border-radius:8px;font-size:11px;cursor:pointer;font-weight:600;white-space:nowrap}
+.foto-upload-btn:hover{background:#D4537E;color:#fff}
+.foto-file-input{display:none}
+
+/* UTILIDAD */
+.util-badge{display:inline-block;padding:3px 8px;border-radius:50px;font-size:11px;font-weight:600;background:#e6f4d7;color:#3B6D11}
+
+/* FORMULARIO AGREGAR */
 .add-flavor-card{background:#fff;border:2px dashed #e8e0e4;border-radius:12px;padding:20px;margin-bottom:16px}
-.add-flavor-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.add-flavor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.add-flavor-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:14px}
+.add-flavor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
 .form-field{display:flex;flex-direction:column;gap:4px}
 .form-label{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.4px}
 .form-input{padding:8px 12px;border:1.5px solid #e8e0e4;border-radius:8px;font-size:13px;color:#1a1a1a;background:#fff;outline:none}
 .form-input:focus{border-color:#D4537E}
-.form-select{padding:8px 12px;border:1.5px solid #e8e0e4;border-radius:8px;font-size:13px;color:#1a1a1a;background:#fff;outline:none;cursor:pointer}
-.form-select:focus{border-color:#D4537E}
-.btn-add-flavor{padding:10px 24px;background:#D4537E;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:6px}
+.btn-add-flavor{padding:10px 24px;background:#D4537E;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
 .btn-add-flavor:hover{background:#b8405e}
 .btn-add-flavor:disabled{background:#ccc;cursor:not-allowed}
 
-/* ALERTA STOCK BAJO */
-.inv-alert{background:#fff8e6;border:1px solid #ffd88a;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#854F0B;display:flex;align-items:center;gap:8px}
+/* ALERTA */
+.inv-alert{background:#fff8e6;border:1px solid #ffd88a;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#854F0B}
 
 /* CONFIRMAR ELIMINAR */
 .confirm-overlay{display:none;position:fixed;inset:0;background:rgba(30,10,20,.55);z-index:200;align-items:center;justify-content:center}
@@ -177,12 +182,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-delete-confirm{flex:1;padding:11px;background:#c0392b;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
 .btn-delete-cancel{flex:1;padding:11px;background:#f5f0f2;color:#666;border:1px solid #e0d8dc;border-radius:10px;font-size:13px;cursor:pointer}
 
-/* ESTADO PEDIDOS */
 .estado-pill{display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600}
 .est-confirmado{background:#e6f4d7;color:#3B6D11}
 .est-pendiente{background:#fff0d6;color:#854F0B}
 
-/* TOAST */
 .toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
 .toast.show{opacity:1}
 </style>
@@ -219,7 +222,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Salir
         </div>
-        <div class="admin-lock-btn" id="lock-btn" onclick="showLogin()" title="Acceso administrador">
+        <div class="admin-lock-btn" id="lock-btn" onclick="showLogin()" title="Administrador">
           <svg id="lock-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         </div>
       </div>
@@ -228,7 +231,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <!-- TIENDA -->
     <div class="page active" id="page-tienda">
       <div class="search-row"><input type="text" id="search-input" placeholder="Buscar sabor..." oninput="renderTienda()"></div>
-      <div class="cat-pills" id="cat-pills"></div>
       <div id="flavor-grid-wrap"><div class="loading"><div class="spinner"></div> Cargando sabores...</div></div>
     </div>
 
@@ -288,7 +290,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <div class="login-sub">Ingresa la contraseña para gestionar el inventario</div>
           <div class="login-error" id="login-error">Contraseña incorrecta</div>
           <input class="login-input" type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
-          <button class="btn-login" onclick="doLogin()">Entrar al inventario</button>
+          <button class="btn-login" onclick="doLogin()">Entrar</button>
           <button class="btn-cancel-login" onclick="cancelLogin()">Cancelar</button>
         </div>
       </div>
@@ -299,33 +301,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="metrics" id="inv-metrics"></div>
       <div id="inv-alert-wrap"></div>
 
-      <!-- FORMULARIO AGREGAR SABOR -->
+      <!-- AGREGAR SABOR -->
       <div class="add-flavor-card">
         <div class="add-flavor-title">➕ Agregar nuevo sabor</div>
         <div class="add-flavor-grid">
           <div class="form-field">
             <div class="form-label">Emoji</div>
-            <input class="form-input" type="text" id="new-emoji" placeholder="🍓" maxlength="4" style="font-size:20px;text-align:center">
+            <input class="form-input" type="text" id="new-emoji" placeholder="🍦" maxlength="4" style="font-size:20px;text-align:center">
           </div>
           <div class="form-field">
             <div class="form-label">Nombre</div>
             <input class="form-input" type="text" id="new-nombre" placeholder="Ej: Tamarindo">
           </div>
           <div class="form-field">
-            <div class="form-label">Categoría</div>
-            <select class="form-select" id="new-categoria">
-              <option value="frutas">🍓 Frutas</option>
-              <option value="clasicos">🍦 Clásicos</option>
-              <option value="tropicales">🥭 Tropicales</option>
-              <option value="especiales">⭐ Especiales</option>
-            </select>
+            <div class="form-label">Precio venta</div>
+            <input class="form-input" type="number" id="new-precio" placeholder="3500" min="0" step="100">
           </div>
           <div class="form-field">
-            <div class="form-label">Precio (COP)</div>
-            <input class="form-input" type="number" id="new-precio" placeholder="8000" min="0" step="500">
+            <div class="form-label">Precio costo</div>
+            <input class="form-input" type="number" id="new-costo" placeholder="2400" min="0" step="100">
           </div>
           <div class="form-field">
-            <div class="form-label">Unidades iniciales</div>
+            <div class="form-label">Unidades</div>
             <input class="form-input" type="number" id="new-stock" placeholder="10" min="0">
           </div>
         </div>
@@ -335,18 +332,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         </button>
       </div>
 
-      <div class="sh">Sabores activos — actualiza stock o elimina</div>
+      <div class="sh">Sabores activos</div>
       <div class="inv-table-wrap">
         <table class="inv-table" style="table-layout:auto">
           <thead>
             <tr>
-              <th style="width:36px"></th>
+              <th style="width:60px">Foto</th>
               <th>Sabor</th>
-              <th style="width:90px">Categoría</th>
-              <th style="width:120px">Unidades</th>
-              <th style="width:90px">Precio</th>
+              <th style="width:80px">Stock</th>
+              <th style="width:80px">Venta</th>
+              <th style="width:80px">Costo</th>
+              <th style="width:70px">Utilidad</th>
               <th style="width:76px">Guardar</th>
-              <th style="width:76px">Eliminar</th>
+              <th style="width:70px">Foto</th>
+              <th style="width:70px">Eliminar</th>
             </tr>
           </thead>
           <tbody id="inv-tbody"></tbody>
@@ -356,10 +355,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
     <!-- PEDIDOS -->
     <div class="page" id="page-pedidos">
+      <div class="metrics" id="pedidos-metrics"></div>
       <div class="sh">Historial de pedidos</div>
       <div class="orders-table-wrap">
         <table class="orders-table">
-          <thead><tr><th>Orden</th><th>Fecha y hora</th><th>Total</th><th>Pago</th><th>Estado</th></tr></thead>
+          <thead><tr><th>Orden</th><th>Fecha y hora</th><th>Total venta</th><th>Costo est.</th><th>Utilidad est.</th><th>Pago</th><th>Estado</th></tr></thead>
           <tbody id="pedidos-tbody"></tbody>
         </table>
       </div>
@@ -367,7 +367,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- MODAL CONFIRMAR ELIMINAR -->
+<!-- MODAL ELIMINAR -->
 <div class="confirm-overlay" id="confirm-overlay">
   <div class="confirm-sheet">
     <div class="confirm-icon">🗑️</div>
@@ -386,6 +386,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 const SUPA_URL='https://rvvfdwbkheyknspdbuay.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dmZkd2JraGV5a25zcGRidWF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyNTI2NjcsImV4cCI6MjA5NTgyODY2N30.9qOXuu95fcTb3BltP2NpAViOQ84k3Ai8Oiq4EqI7RSw';
 const ADMIN_PASS='cremas2025';
+const BUCKET_URL=SUPA_URL+'/storage/v1/object/public/sabores-img/';
 const H={'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
 
 async function sbGet(p){const r=await fetch(SUPA_URL+'/rest/v1/'+p,{headers:{...H,'Prefer':'return=representation'}});return r.json()}
@@ -393,10 +394,21 @@ async function sbPost(p,b){const r=await fetch(SUPA_URL+'/rest/v1/'+p,{method:'P
 async function sbPatch(p,b){const r=await fetch(SUPA_URL+'/rest/v1/'+p,{method:'PATCH',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(b)});return r.json()}
 async function sbDelete(p){const r=await fetch(SUPA_URL+'/rest/v1/'+p,{method:'DELETE',headers:H});return r.ok}
 
+async function uploadImg(file, nombre){
+  const ext=file.name.split('.').pop();
+  const path=nombre.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')+'-'+Date.now()+'.'+ext;
+  const r=await fetch(SUPA_URL+'/storage/v1/object/sabores-img/'+path,{
+    method:'POST',
+    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':file.type,'x-upsert':'true'},
+    body:file
+  });
+  if(!r.ok)throw new Error('Error subiendo imagen');
+  return BUCKET_URL+path;
+}
+
 const COP=v=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',minimumFractionDigits:0}).format(v);
-const CATS=['todos','frutas','clasicos','tropicales','especiales'];
-let FLAVORS=[],cart={},selectedCat='todos',selectedPay='nequi',prevPage='tienda';
-let deleteTargetId=null;
+const PCT=(v,c)=>c>0?Math.round((v-c)/v*100):0;
+let FLAVORS=[],cart={},selectedPay='nequi',prevPage='tienda',deleteTargetId=null;
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
 
@@ -412,19 +424,17 @@ function showLogin(){
   prevPage=document.querySelector('.page.active')?.id.replace('page-','')||'tienda';
   document.getElementById('login-pass').value='';
   document.getElementById('login-error').style.display='none';
-  document.getElementById('login-pass').classList.remove('error');
   setPage('login');
 }
 function doLogin(){
-  const pass=document.getElementById('login-pass').value;
-  if(pass===ADMIN_PASS){
+  if(document.getElementById('login-pass').value===ADMIN_PASS){
     ['inv','pedidos'].forEach(x=>document.getElementById('nav-'+x).style.display='flex');
     document.getElementById('admin-sep').style.display='block';
     document.getElementById('lock-btn').classList.add('unlocked');
     document.getElementById('logout-btn').style.display='flex';
     document.getElementById('lock-icon').innerHTML='<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 019.9-1"/>';
     setPage('inv');
-    toast('✅ Bienvenido — gestiona tu inventario');
+    toast('✅ Bienvenido al panel de administración');
   } else {
     const inp=document.getElementById('login-pass');
     inp.classList.add('error');
@@ -440,8 +450,7 @@ function logoutAdmin(){
   document.getElementById('lock-btn').classList.remove('unlocked');
   document.getElementById('logout-btn').style.display='none';
   document.getElementById('lock-icon').innerHTML='<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>';
-  setPage('tienda');
-  toast('Sesión cerrada');
+  setPage('tienda');toast('Sesión cerrada');
 }
 
 // ── CARGAR SABORES ──
@@ -457,28 +466,28 @@ async function loadFlavors(){
 // ── TIENDA ──
 function renderTienda(){
   const q=(document.getElementById('search-input').value||'').toLowerCase();
-  document.getElementById('cat-pills').innerHTML=CATS.map(c=>
-    `<div class="cat-pill${selectedCat===c?' active':''}" onclick="setCat('${c}')">${c.charAt(0).toUpperCase()+c.slice(1)}</div>`
-  ).join('');
-  const list=FLAVORS.filter(f=>(selectedCat==='todos'||f.categoria===selectedCat)&&(!q||f.nombre.toLowerCase().includes(q)));
+  const list=FLAVORS.filter(f=>!q||f.nombre.toLowerCase().includes(q));
   const grid=document.getElementById('flavor-grid-wrap');
   if(!list.length){grid.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>No se encontraron sabores</p></div>';return}
   grid.innerHTML=`<div class="flavor-grid">${list.map(f=>{
     const si=stockInfo(f.stock),inC=cart[f.id]>0,out=f.stock===0;
+    const imgHTML=f.imagen_url
+      ?`<img class="fcard-img" src="${f.imagen_url}" alt="${f.nombre}" loading="lazy">`
+      :`<div class="fcard-img-placeholder">${f.emoji}</div>`;
     return`<div class="fcard${inC?' in-cart':''}${out?' out':''}">
       <span class="sbadge ${si.cls}">${si.txt}</span>
-      <div class="fcard-emoji">${f.emoji}</div>
-      <div class="fcard-name">${f.nombre}</div>
-      <div><span class="tag tag-${f.categoria}">${f.categoria}</span></div>
-      <div class="fcard-price">${COP(f.precio)}</div>
-      <button class="fcard-add${inC?' added':''}" onclick="addCart(${f.id})" ${out?'disabled':''}>
-        ${out?'No disponible':inC?'✓ En pedido ('+cart[f.id]+')':'Agregar'}
-      </button>
+      ${imgHTML}
+      <div class="fcard-body">
+        <div class="fcard-name">${f.nombre}</div>
+        <div class="fcard-price">${COP(f.precio)}</div>
+        <button class="fcard-add${inC?' added':''}" onclick="addCart(${f.id})" ${out?'disabled':''}>
+          ${out?'No disponible':inC?'✓ En pedido ('+cart[f.id]+')':'Agregar'}
+        </button>
+      </div>
     </div>`;
   }).join('')}</div>`;
 }
 
-function setCat(c){selectedCat=c;renderTienda()}
 function addCart(id){const f=FLAVORS.find(x=>x.id===id);if(!f||f.stock===0)return;cart[id]=(cart[id]||0)+1;updateBadge();renderTienda()}
 function removeCart(id){if(!cart[id])return;cart[id]--;if(cart[id]<=0)delete cart[id];updateBadge();renderTienda();renderCarrito()}
 function updateBadge(){const t=Object.values(cart).reduce((a,b)=>a+b,0);const b=document.getElementById('cart-badge');b.textContent=t;b.style.display=t>0?'flex':'none'}
@@ -494,8 +503,14 @@ function renderCarrito(){
   }
   const total=cartTotal();
   el.innerHTML=`
-    <div class="sh">Sabores seleccionados</div>
-    <div class="cart-list">${items.map(([id,qty])=>{const f=FLAVORS.find(x=>x.id==id);return`<div class="citem"><div class="citem-emoji">${f.emoji}</div><div class="citem-info"><div class="citem-name">${f.nombre}</div><div class="citem-price">${COP(f.precio)} c/u</div></div><div class="qty-ctrl"><button class="qbtn" onclick="removeCart(${id})">−</button><span class="qnum">${qty}</span><button class="qbtn" onclick="addCart(${id})">+</button></div></div>`;}).join('')}</div>
+    <div class="sh">Tu pedido</div>
+    <div class="cart-list">${items.map(([id,qty])=>{
+      const f=FLAVORS.find(x=>x.id==id);
+      const imgHTML=f.imagen_url
+        ?`<img src="${f.imagen_url}" style="width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid #e8e0e4;flex-shrink:0">`
+        :`<div class="citem-img">${f.emoji}</div>`;
+      return`<div class="citem">${imgHTML}<div class="citem-info"><div class="citem-name">${f.nombre}</div><div class="citem-price">${COP(f.precio)} c/u</div></div><div class="qty-ctrl"><button class="qbtn" onclick="removeCart(${id})">−</button><span class="qnum">${qty}</span><button class="qbtn" onclick="addCart(${id})">+</button></div></div>`;
+    }).join('')}</div>
     <div class="total-box"><div class="trow"><span>Subtotal (${Object.values(cart).reduce((a,b)=>a+b,0)} und.)</span><span>${COP(total)}</span></div><div class="trow big"><span>Total</span><span>${COP(total)}</span></div></div>
     <div class="sh">Método de pago</div>
     <div class="pay-section">
@@ -537,120 +552,183 @@ async function confirmPago(){
     document.getElementById('qr-pay-view').style.display='none';
     document.getElementById('qr-success-view').style.display='block';
     document.getElementById('order-pill').textContent='Orden '+numOrden;
-    toast('✅ Pedido guardado correctamente');
-  }catch(e){btn.disabled=false;btn.textContent='✓ Confirmar pago';toast('❌ Error al guardar. Intenta de nuevo.')}
+    toast('✅ Pedido confirmado');
+  }catch(e){btn.disabled=false;btn.textContent='✓ Confirmar pago';toast('❌ Error al guardar')}
 }
 function finalizarPedido(){cart={};updateBadge();closeQR();setPage('tienda');renderTienda()}
 
 // ── INVENTARIO ──
 function renderInv(){
   const ag=FLAVORS.filter(f=>f.stock===0).length;
-  const bj=FLAVORS.filter(f=>f.stock>0&&f.stock<=3).length;
   const ts=FLAVORS.reduce((s,f)=>s+f.stock,0);
+  const totalVenta=FLAVORS.reduce((s,f)=>s+f.precio*f.stock,0);
+  const totalCosto=FLAVORS.reduce((s,f)=>s+(f.precio_costo||0)*f.stock,0);
+  const utilTotal=totalVenta-totalCosto;
+  const pctUtil=totalVenta>0?Math.round(utilTotal/totalVenta*100):0;
+
   document.getElementById('inv-metrics').innerHTML=`
-    <div class="metric"><div class="metric-label">Total en stock</div><div class="metric-val">${ts}</div><div class="metric-delta">unidades totales</div></div>
-    <div class="metric"><div class="metric-label">Sabores activos</div><div class="metric-val">${FLAVORS.filter(f=>f.stock>0).length}</div><div class="metric-delta">de ${FLAVORS.length} sabores</div></div>
-    <div class="metric"><div class="metric-label">Stock bajo ≤3</div><div class="metric-val" style="color:#854F0B">${bj}</div><div class="metric-delta" style="color:#854F0B">${bj>0?'Reabastecer pronto':'Ninguno'}</div></div>
-    <div class="metric"><div class="metric-label">Agotados</div><div class="metric-val" style="color:${ag>0?'#c0392b':'#3B6D11'}">${ag}</div><div class="metric-delta" style="color:${ag>0?'#c0392b':'#3B6D11'}">${ag>0?'Sin stock':'Todo disponible'}</div></div>`;
+    <div class="metric metric-pink"><div class="metric-label">Stock total</div><div class="metric-val">${ts} und.</div><div class="metric-delta">${FLAVORS.length} sabores activos</div></div>
+    <div class="metric metric-pink"><div class="metric-label">Valor en venta</div><div class="metric-val" style="font-size:16px">${COP(totalVenta)}</div><div class="metric-delta">si se vende todo</div></div>
+    <div class="metric metric-amber"><div class="metric-label">Valor en costo</div><div class="metric-val" style="font-size:16px;color:#BA7517">${COP(totalCosto)}</div><div class="metric-delta" style="color:#BA7517">inversión actual</div></div>
+    <div class="metric metric-green"><div class="metric-label">Utilidad potencial</div><div class="metric-val" style="font-size:16px;color:#3B6D11">${COP(utilTotal)}</div><div class="metric-delta">${pctUtil}% de margen</div></div>
+    <div class="metric"><div class="metric-label">Agotados</div><div class="metric-val" style="color:${ag>0?'#c0392b':'#3B6D11'}">${ag}</div><div class="metric-delta" style="color:${ag>0?'#c0392b':'#3B6D11'}">${ag>0?'Reabastecer':'Todo ok'}</div></div>`;
 
   const criticos=FLAVORS.filter(f=>f.stock<=3);
   document.getElementById('inv-alert-wrap').innerHTML=criticos.length
-    ?`<div class="inv-alert">⚠️ <strong>Atención:</strong> ${criticos.map(f=>f.emoji+' '+f.nombre+(f.stock===0?' (agotado)':' (solo '+f.stock+')')).join(' · ')}</div>`:'';
+    ?`<div class="inv-alert">⚠️ <strong>Stock crítico:</strong> ${criticos.map(f=>f.emoji+' '+f.nombre+(f.stock===0?' (agotado)':' ('+f.stock+')')).join(' · ')}</div>`:'';
 
   document.getElementById('inv-tbody').innerHTML=FLAVORS.map(f=>{
     const si=stockInfo(f.stock);
+    const costo=f.precio_costo||0;
+    const util=f.precio-costo;
+    const pct=PCT(f.precio,costo);
     const rowStyle=f.stock===0?'background:#fff8f8':f.stock<=3?'background:#fffbf0':'';
+    const imgSrc=f.imagen_url||'';
     return`<tr style="${rowStyle}">
-      <td style="font-size:20px">${f.emoji}</td>
+      <td>
+        <div class="foto-preview" id="preview-${f.id}">
+          ${imgSrc?`<img src="${imgSrc}" alt="${f.nombre}">`:`${f.emoji}`}
+        </div>
+      </td>
       <td style="font-weight:600">${f.nombre}</td>
-      <td><span class="tag tag-${f.categoria}">${f.categoria}</span></td>
       <td>
         <input class="stock-input" type="number" min="0" max="999" value="${f.stock}" id="stock-${f.id}">
-        <span class="sbadge ${si.cls}" style="margin-left:6px">${si.txt}</span>
+        <div style="font-size:10px;margin-top:3px"><span class="sbadge ${si.cls}" style="position:static">${si.txt}</span></div>
       </td>
-      <td style="color:#D4537E;font-weight:600">${COP(f.precio)}</td>
-      <td><button class="save-btn" onclick="saveStock(${f.id})">Guardar</button></td>
+      <td><input class="price-input" type="number" min="0" step="100" value="${f.precio}" id="venta-${f.id}"></td>
+      <td><input class="price-input" type="number" min="0" step="100" value="${costo}" id="costo-${f.id}"></td>
+      <td>
+        <span class="util-badge" id="util-${f.id}">${COP(util)}<br>${pct}%</span>
+      </td>
+      <td><button class="save-btn" onclick="saveRow(${f.id})">Guardar</button></td>
+      <td>
+        <input type="file" accept="image/*" class="foto-file-input" id="file-${f.id}" onchange="subirFoto(${f.id},this)">
+        <button class="foto-upload-btn" onclick="document.getElementById('file-${f.id}').click()">📷 Foto</button>
+      </td>
       <td><button class="del-btn" onclick="pedirEliminar(${f.id},'${f.nombre}','${f.emoji}')">🗑️</button></td>
     </tr>`;
   }).join('');
+
+  // Actualizar utilidad en tiempo real al cambiar precios
+  FLAVORS.forEach(f=>{
+    const v=document.getElementById('venta-'+f.id);
+    const c=document.getElementById('costo-'+f.id);
+    if(v&&c){
+      const update=()=>{
+        const vv=parseInt(v.value)||0,cv=parseInt(c.value)||0;
+        const u=vv-cv,p=vv>0?Math.round(u/vv*100):0;
+        document.getElementById('util-'+f.id).innerHTML=COP(u)+'<br>'+p+'%';
+      };
+      v.addEventListener('input',update);
+      c.addEventListener('input',update);
+    }
+  });
 }
 
-async function saveStock(id){
+async function saveRow(id){
   const f=FLAVORS.find(x=>x.id===id);
-  const inp=document.getElementById('stock-'+id);
-  if(!f||!inp)return;
-  const ns=parseInt(inp.value)||0;
+  const stock=parseInt(document.getElementById('stock-'+id).value)||0;
+  const precio=parseInt(document.getElementById('venta-'+id).value)||0;
+  const precio_costo=parseInt(document.getElementById('costo-'+id).value)||0;
   try{
-    await sbPatch('sabores?id=eq.'+id,{stock:ns});
-    f.stock=ns;
-    toast('✅ '+f.nombre+': '+ns+' unidades guardadas');
+    await sbPatch('sabores?id=eq.'+id,{stock,precio,precio_costo});
+    f.stock=stock;f.precio=precio;f.precio_costo=precio_costo;
+    toast('✅ '+f.nombre+' actualizado');
     renderInv();renderTienda();
-  }catch(e){toast('❌ Error al actualizar el stock')}
+  }catch(e){toast('❌ Error al guardar')}
 }
 
-// ── ELIMINAR SABOR ──
-function pedirEliminar(id,nombre,emoji){
-  deleteTargetId=id;
-  document.getElementById('confirm-title').textContent='¿Eliminar '+emoji+' '+nombre+'?';
-  document.getElementById('confirm-sub').textContent='Este sabor desaparecerá del menú de clientes. No se puede deshacer.';
-  document.getElementById('confirm-overlay').classList.add('show');
-}
-function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('show');deleteTargetId=null}
-async function confirmarEliminar(){
-  if(!deleteTargetId)return;
+async function subirFoto(id,input){
+  const file=input.files[0];if(!file)return;
+  const f=FLAVORS.find(x=>x.id===id);
+  toast('📷 Subiendo foto...');
   try{
-    // Marcamos como inactivo en lugar de borrar físicamente (preserva historial de pedidos)
-    await sbPatch('sabores?id=eq.'+deleteTargetId,{activo:false});
-    FLAVORS=FLAVORS.filter(f=>f.id!==deleteTargetId);
-    closeConfirm();
-    toast('🗑️ Sabor eliminado del menú');
-    renderInv();renderTienda();
-  }catch(e){toast('❌ Error al eliminar el sabor')}
+    const url=await uploadImg(file,f.nombre);
+    await sbPatch('sabores?id=eq.'+id,{imagen_url:url});
+    f.imagen_url=url;
+    const prev=document.getElementById('preview-'+id);
+    if(prev)prev.innerHTML=`<img src="${url}" alt="${f.nombre}">`;
+    toast('✅ Foto de '+f.nombre+' actualizada');
+    renderTienda();
+  }catch(e){toast('❌ Error al subir la foto')}
 }
 
 // ── AGREGAR SABOR ──
 async function agregarSabor(){
   const emoji=document.getElementById('new-emoji').value.trim()||'🍦';
   const nombre=document.getElementById('new-nombre').value.trim();
-  const categoria=document.getElementById('new-categoria').value;
   const precio=parseInt(document.getElementById('new-precio').value)||0;
+  const precio_costo=parseInt(document.getElementById('new-costo').value)||0;
   const stock=parseInt(document.getElementById('new-stock').value)||0;
-
-  if(!nombre){toast('⚠️ Escribe el nombre del sabor');document.getElementById('new-nombre').focus();return}
-  if(!precio){toast('⚠️ Ingresa el precio');document.getElementById('new-precio').focus();return}
-
+  if(!nombre){toast('⚠️ Escribe el nombre del sabor');return}
+  if(!precio){toast('⚠️ Ingresa el precio de venta');return}
   const btn=document.getElementById('btn-agregar');
   btn.disabled=true;btn.textContent='Guardando...';
   try{
-    const [nuevo]=await sbPost('sabores',{nombre,emoji,categoria,precio,stock,activo:true});
+    const [nuevo]=await sbPost('sabores',{nombre,emoji,categoria:'especiales',precio,precio_costo,stock,activo:true,imagen_url:''});
     FLAVORS.push(nuevo);
     FLAVORS.sort((a,b)=>a.nombre.localeCompare(b.nombre));
-    // Limpiar formulario
-    document.getElementById('new-emoji').value='';
-    document.getElementById('new-nombre').value='';
-    document.getElementById('new-precio').value='';
-    document.getElementById('new-stock').value='';
-    toast('✅ '+emoji+' '+nombre+' agregado al menú');
+    ['new-emoji','new-nombre','new-precio','new-costo','new-stock'].forEach(id=>document.getElementById(id).value='');
+    toast('✅ '+emoji+' '+nombre+' agregado');
     renderInv();renderTienda();
   }catch(e){toast('❌ Error al agregar el sabor')}
-  btn.disabled=false;btn.textContent='Agregar sabor';
-  // Restaurar ícono
+  btn.disabled=false;
   btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Agregar sabor';
+}
+
+// ── ELIMINAR ──
+function pedirEliminar(id,nombre,emoji){
+  deleteTargetId=id;
+  document.getElementById('confirm-title').textContent='¿Eliminar '+emoji+' '+nombre+'?';
+  document.getElementById('confirm-sub').textContent='Desaparecerá del menú. No se puede deshacer.';
+  document.getElementById('confirm-overlay').classList.add('show');
+}
+function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('show');deleteTargetId=null}
+async function confirmarEliminar(){
+  if(!deleteTargetId)return;
+  try{
+    await sbPatch('sabores?id=eq.'+deleteTargetId,{activo:false});
+    FLAVORS=FLAVORS.filter(f=>f.id!==deleteTargetId);
+    closeConfirm();toast('🗑️ Sabor eliminado');
+    renderInv();renderTienda();
+  }catch(e){toast('❌ Error al eliminar')}
 }
 
 // ── PEDIDOS ──
 async function renderPedidos(){
   try{
     const pedidos=await sbGet('pedidos?order=created_at.desc&limit=200');
+    // Calcular métricas
+    const hoy=new Date().toISOString().split('T')[0];
+    const ph=pedidos.filter(p=>p.created_at.startsWith(hoy));
+    const totalHoy=ph.reduce((s,p)=>s+p.total,0);
+    const totalGral=pedidos.reduce((s,p)=>s+p.total,0);
+    // Costo promedio estimado (precio_costo promedio de los sabores)
+    const avgMargen=FLAVORS.length>0?FLAVORS.reduce((s,f)=>s+PCT(f.precio,f.precio_costo||0),0)/FLAVORS.length:31;
+    const utilHoy=Math.round(totalHoy*avgMargen/100);
+    const utilGral=Math.round(totalGral*avgMargen/100);
+
+    document.getElementById('pedidos-metrics').innerHTML=`
+      <div class="metric metric-pink"><div class="metric-label">Pedidos hoy</div><div class="metric-val">${ph.length}</div><div class="metric-delta">Total: ${pedidos.length}</div></div>
+      <div class="metric metric-pink"><div class="metric-label">Ventas hoy</div><div class="metric-val" style="font-size:16px">${COP(totalHoy)}</div><div class="metric-delta">Total: ${COP(totalGral)}</div></div>
+      <div class="metric metric-green"><div class="metric-label">Utilidad hoy</div><div class="metric-val" style="font-size:16px;color:#3B6D11">${COP(utilHoy)}</div><div class="metric-delta">~${Math.round(avgMargen)}% margen</div></div>
+      <div class="metric metric-green"><div class="metric-label">Utilidad total</div><div class="metric-val" style="font-size:16px;color:#3B6D11">${COP(utilGral)}</div><div class="metric-delta">acumulada</div></div>`;
+
     document.getElementById('pedidos-tbody').innerHTML=pedidos.length
-      ?pedidos.map(p=>`<tr>
-          <td style="font-weight:600;font-size:12px">${p.numero_orden}</td>
-          <td>${new Date(p.created_at).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}</td>
-          <td style="color:#D4537E;font-weight:600">${COP(p.total)}</td>
-          <td>${p.metodo_pago==='nequi'?'💜 Nequi':'🏦 PSE'}</td>
-          <td><span class="estado-pill est-${p.estado}">${p.estado}</span></td>
-        </tr>`).join('')
-      :'<tr><td colspan="5" style="text-align:center;padding:20px;color:#888">Sin pedidos aún</td></tr>';
+      ?pedidos.map(p=>{
+          const util=Math.round(p.total*avgMargen/100);
+          const costo=p.total-util;
+          return`<tr>
+            <td style="font-weight:600;font-size:12px">${p.numero_orden}</td>
+            <td>${new Date(p.created_at).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}</td>
+            <td style="color:#D4537E;font-weight:600">${COP(p.total)}</td>
+            <td style="color:#BA7517">${COP(costo)}</td>
+            <td style="color:#3B6D11;font-weight:600">${COP(util)}</td>
+            <td>${p.metodo_pago==='nequi'?'💜 Nequi':'🏦 PSE'}</td>
+            <td><span class="estado-pill est-${p.estado}">${p.estado}</span></td>
+          </tr>`;
+        }).join('')
+      :'<tr><td colspan="7" style="text-align:center;padding:20px;color:#888">Sin pedidos aún</td></tr>';
   }catch(e){toast('❌ Error cargando pedidos')}
 }
 
@@ -661,8 +739,8 @@ function setPage(p){
     const n=document.getElementById('nav-'+x);
     if(n)n.classList.toggle('active',x===p);
   });
-  const T={tienda:'Nuestros sabores',carrito:'Mi pedido',login:'Acceso administrador',inv:'Inventario',pedidos:'Historial de pedidos'};
-  const S={tienda:'Elige y paga fácil',carrito:'Revisa y paga',login:'Solo para el administrador',inv:'Agrega, edita o elimina sabores',pedidos:'Todos los pedidos registrados'};
+  const T={tienda:'Nuestros sabores',carrito:'Mi pedido',login:'Acceso administrador',inv:'Inventario',pedidos:'Pedidos y ganancias'};
+  const S={tienda:'Elige y paga fácil',carrito:'Revisa y paga',login:'Solo para el administrador',inv:'Gestiona sabores, precios y fotos',pedidos:'Historial y análisis de utilidades'};
   document.getElementById('topbar-title').textContent=T[p]||'';
   document.getElementById('topbar-sub').textContent=S[p]||'';
   if(p==='carrito')renderCarrito();
