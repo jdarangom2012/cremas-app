@@ -476,7 +476,7 @@ function renderTienda(){
   }).join('')}</div>`;
 }
 
-function addCart(id){const f=FLAVORS.find(x=>x.id===id);if(!f||f.stock===0)return;cart[id]=(cart[id]||0)+1;updateBadge();renderTienda()}
+function addCart(id){const f=FLAVORS.find(x=>x.id===id);if(!f||f.stock===0)return;cart[id]=(cart[id]||0)+1;updateBadge();renderTienda();const cp=document.getElementById("page-carrito");if(cp&&cp.classList.contains("active"))renderCarrito();}
 function removeCart(id){if(!cart[id])return;cart[id]--;if(cart[id]<=0)delete cart[id];updateBadge();renderTienda();renderCarrito()}
 function updateBadge(){const t=Object.values(cart).reduce((a,b)=>a+b,0);const b=document.getElementById('cart-badge');b.textContent=t;b.style.display=t>0?'flex':'none'}
 function cartTotal(){return Object.entries(cart).reduce((s,[id,q])=>{const f=FLAVORS.find(x=>x.id==id);return s+(f?f.precio*q:0)},0)}
