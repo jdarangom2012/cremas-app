@@ -487,22 +487,44 @@ function renderCarrito(){
   const el=document.getElementById('cart-content');
   if(!items.length){
     el.innerHTML=`<div class="empty-state"><div class="empty-icon">🛒</div><p style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:6px">Tu pedido está vacío</p><p style="font-size:13px">Ve al menú y elige tus sabores</p><br><button onclick="setPage('tienda')" style="margin-top:8px;padding:10px 20px;background:#D4537E;color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer;font-weight:500">Ver menú</button></div>`;
-    document.getElementById('qr-overlay').classList.remove('show');return;
+    return;
   }
   const total=cartTotal();
   el.innerHTML=`
     <div class="sh">Tu pedido</div>
     <div class="cart-list">${items.map(([id,qty])=>{
       const f=FLAVORS.find(x=>x.id==id);
-      const imgHTML=f.imagen_url
-        ?`<img src="${f.imagen_url}" style="width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid #e8e0e4;flex-shrink:0">`
-        :`<div class="citem-img">${f.emoji}</div>`;
-      return`<div class="citem">${imgHTML}<div class="citem-info"><div class="citem-name">${f.nombre}</div><div class="citem-price">${COP(f.precio)} c/u</div></div><div class="qty-ctrl"><button class="qbtn" onclick="removeCart(${id})">−</button><span class="qnum">${qty}</span><button class="qbtn" onclick="addCart(${id})">+</button></div></div>`;
+      const img=f.imagen_url?`<img class="citem-img" src="${f.imagen_url}" alt="${f.nombre}">`:`<div class="citem-thumb">${f.emoji}</div>`;
+      return `<div class="citem">${img}<div class="citem-info"><div class="citem-name">${f.nombre}</div><div class="citem-price">${COP(f.precio)} c/u</div></div><div class="qty-ctrl"><button class="qbtn" onclick="removeCart(${id})">−</button><span class="qnum">${qty}</span><button class="qbtn" onclick="addCart(${id})">+</button></div></div>`;
     }).join('')}</div>
-    <div class="total-box"><div class="trow"><span>Subtotal (${Object.values(cart).reduce((a,b)=>a+b,0)} und.)</span><span>${COP(total)}</span></div><div class="trow big"><span>Total</span><span>${COP(total)}</span></div></div>
-    <button class="btn-pay" onclick="openQR()">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      Generar QR y pagar
+    <div class="total-box">
+      <div class="trow"><span>Subtotal (${Object.values(cart).reduce((a,b)=>a+b,0)} und.)</span><span>${COP(total)}</span></div>
+      <div class="trow big"><span>Total</span><span>${COP(total)}</span></div>
+    </div>
+    <!-- PAGO NEQUI INTEGRADO -->
+    <div style="background:#6B2D8B;border-radius:16px;padding:20px;margin-bottom:12px;text-align:center">
+      <div style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">💜 Paga con Nequi o Bre-B</div>
+      <div style="font-size:40px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:4px">${COP(total)}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.65)">Este es el monto exacto a pagar</div>
+    </div>
+    <div style="background:#f5eefa;border-radius:14px;padding:16px;margin-bottom:12px;border:1.5px solid #d4a8f0;text-align:center">
+      <div style="font-size:11px;color:#6B2D8B;font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Envía a esta llave Nequi</div>
+      <div style="font-size:26px;font-weight:800;color:#6B2D8B;letter-spacing:1px;margin-bottom:4px">@NEQUIJUA78315</div>
+      <div style="font-size:12px;color:#888">Juan Arango</div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:16px;border:1px solid #e8e0e4;font-size:13px;color:#444;line-height:2">
+      <div style="font-weight:600;color:#1a1a1a;margin-bottom:6px">¿Cómo pagar?</div>
+      1️⃣ Abre <strong>Nequi</strong> o <strong>Bre-B</strong><br>
+      2️⃣ Toca <strong>Enviar dinero → Por llave</strong><br>
+      3️⃣ Escribe <strong style="color:#6B2D8B">@NEQUIJUA78315</strong><br>
+      4️⃣ Ingresa exactamente <strong style="color:#6B2D8B">${COP(total)}</strong><br>
+      5️⃣ Confirma el pago y toca el botón de abajo
+    </div>
+    <button onclick="confirmarPagoNequi()" style="width:100%;padding:15px;background:#639922;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px">
+      ✓ Ya pagué — Confirmar pedido
+    </button>
+    <button onclick="setPage('tienda')" style="width:100%;padding:11px;background:#f5f0f2;color:#666;border:1px solid #e0d8dc;border-radius:12px;font-size:13px;cursor:pointer">
+      ← Seguir agregando sabores
     </button>`;
 }
 
@@ -716,6 +738,38 @@ async function renderPedidos(){
 }
 
 // ── NAVEGACIÓN ──
+
+function confirmarPagoNequi(){
+  // Mostrar confirmación
+  const el=document.getElementById('cart-content');
+  el.innerHTML=`<div style="text-align:center;padding:3rem 1rem">
+    <div style="font-size:56px;margin-bottom:16px">✅</div>
+    <div style="font-size:20px;font-weight:700;color:#3B6D11;margin-bottom:8px">¡Pedido confirmado!</div>
+    <div style="font-size:14px;color:#888;margin-bottom:20px">Tu crema está siendo preparada con amor 🍦</div>
+    <div style="background:#e6f4d7;border-radius:12px;padding:12px 20px;display:inline-block;font-size:14px;font-weight:600;color:#3B6D11;margin-bottom:24px" id="order-pill-inline">Guardando orden...</div>
+    <br><br>
+    <button onclick="finalizarPedido()" style="padding:12px 28px;background:#D4537E;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">Nuevo pedido</button>
+  </div>`;
+  guardarPedidoDB();
+}
+
+async function guardarPedidoDB(){
+  try{
+    const total=cartTotal(),numOrden='ORD-'+Date.now();
+    const [pedido]=await sbPost('pedidos',{numero_orden:numOrden,total,metodo_pago:'nequi',estado:'confirmado'});
+    const items=Object.entries(cart).filter(([,q])=>q>0).map(([id,qty])=>{const f=FLAVORS.find(x=>x.id==id);return{pedido_id:pedido.id,sabor_id:parseInt(id),cantidad:qty,precio_unit:f.precio}});
+    await sbPost('pedido_items',items);
+    await sbPost('pagos',{pedido_id:pedido.id,metodo:'nequi',monto:total,estado:'confirmado'});
+    for(const [id,qty] of Object.entries(cart)){
+      if(qty<=0)continue;const f=FLAVORS.find(x=>x.id==id);if(!f)continue;
+      const ns=Math.max(0,f.stock-qty);await sbPatch('sabores?id=eq.'+id,{stock:ns});f.stock=ns;
+    }
+    const pill=document.getElementById('order-pill-inline');
+    if(pill)pill.textContent='Orden '+numOrden;
+    toast('✅ ¡Pedido guardado!');
+  }catch(e){toast('❌ Error al guardar el pedido')}
+}
+
 function setPage(p){
   ['tienda','carrito','login','inv','pedidos'].forEach(x=>{
     document.getElementById('page-'+x).classList.toggle('active',x===p);
